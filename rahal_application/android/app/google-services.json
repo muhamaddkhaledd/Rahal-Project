@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "772036494212",
+    "project_id": "rahal-aa1e3",
+    "storage_bucket": "rahal-aa1e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772036494212:android:ea5ff9e93a4d9081d0d3d1",
+        "android_client_info": {
+          "package_name": "com.rahal.rahal_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "772036494212-9r2v9jj5rab1if3phrkn9mltotmrbodj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rahal.rahal_application",
+            "certificate_hash": "398e50a6a99aa5e11fe2913f929a9f2371b7d591"
+          }
+        },
+        {
+          "client_id": "772036494212-a353c6pu9fdo560afpsplou60bnakfl9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8s_nxYDLgHdnIdfhbNw6nWs0W5Ouizrs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "772036494212-a353c6pu9fdo560afpsplou60bnakfl9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
