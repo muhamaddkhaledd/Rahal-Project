@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rahal_application/home%20pages/trips%20categories.dart';
 import 'package:rahal_application/home.dart';
 import 'package:rahal_application/shared/components/constants.dart';
 import 'package:rahal_application/shared/cubit/cubit.dart';
@@ -22,8 +23,10 @@ class _filterState extends State<filter> {
   bool placesvisible = false;
   bool pricesvisible = false;
   bool meetingvisible=false;
+  bool governmentvisible = false;
   String pricegroup='كل الاسعار';
   String sortgroup=orderkeyname;
+  String governmentgroup=governmentkey;
   List <bool> placespressed=[];
   List <bool> governmentspressed=[];
   List<String> placesfilter=[];
@@ -44,30 +47,7 @@ class _filterState extends State<filter> {
     'الموعد من الاحدث الي الابعد',
     'الموعد من الابعد الي الاحدث',
   ];
-  List<String> egyptGovernments = [
-    'القاهرة',
-    'الإسكندرية',
-    'الجيزة',
-    'المنيا',
-    'القليوبية',
-    'البحر الأحمر',
-    'الشرقية',
-    'الغربية',
-    'الدقهلية',
-    'كفر الشيخ',
-    'أسوان',
-    'أسيوط',
-    'الفيوم',
-    'بني سويف',
-    'سوهاج',
-    'قنا',
-    'شمال سيناء',
-    'جنوب سيناء',
-    'الوادي الجديد',
-    'مطروح',
-    'البحيرة',
-    'الإسماعيلية',
-  ];
+
 @override
   void initState() {
 
@@ -132,7 +112,7 @@ class _filterState extends State<filter> {
                                         pressed: sortgroup==sort[index]?true:false,
                                         onpressed: () {
                                           setState(() {
-                                            sortgroup=sort[index];
+                                              sortgroup = sort[index];
                                           });
                                         },
                                         oncancel: () {
@@ -285,6 +265,44 @@ class _filterState extends State<filter> {
                           //     SizedBox(height: 10,),
                           //   ],
                           // ),
+                          defaultfilterbutton(
+                            isactive: true,
+                            visible: governmentvisible,
+                            ontap: (){
+                              setState(() {
+                                governmentvisible=!governmentvisible;
+                              });
+                            },
+                            text: 'التحرك من محافظة',
+                            underwidgets: [
+                              Wrap(
+                                textDirection: TextDirection.rtl,
+                                spacing: 5,
+                                runSpacing: 5,
+                                children:
+                                List.generate(egyptGovernments.length,
+                                        (index) {
+                                      return defaultfilteractions(
+                                        title: egyptGovernments[index],
+                                        pressed: governmentgroup==egyptGovernments[index]?true:false,
+                                        onpressed: () {
+                                          setState(() {
+                                            governmentgroup = egyptGovernments[index];
+                                          });
+                                        },
+                                        oncancel: () {
+                                          setState(() {
+                                            governmentgroup='كل المحافظات';
+                                          });
+                                        },
+                                      );
+                                    }),
+
+                              ),
+                              SizedBox(height: 10,),
+                            ],
+                          ),
+
                           Divider(
                             thickness: 0.2,
                             color: Colors.black,
@@ -301,15 +319,16 @@ class _filterState extends State<filter> {
                         child: MaterialButton(
                           color: Colors.amber,
                           onPressed: (){
-                            String oldname=orderkeyname;
-                            selectsort(sort: sortgroup);
-                            print(orderkeyname);
-                            orderkeyname=sortgroup;
-                            locations=placesfilter;
-                            governments=governmentfilter;
+                              String oldname=orderkeyname;
+                              selectsort(sort: sortgroup);
+                              print(orderkeyname);
+                              orderkeyname=sortgroup;
+                              locations=placesfilter;
+                              governments=governmentfilter;
+                              governmentkey=governmentgroup;
+                              print(governmentkey);
                             print(governments);
-                            navigateTo(context, home(initialIndex: 1,));
-
+                            navigateTo(context,home(initialIndex: 1,));
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -320,7 +339,9 @@ class _filterState extends State<filter> {
                       Expanded(
                         child: MaterialButton(
                           color: Colors.amber,
-                          onPressed: (){},
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text('رجوع',style: TextStyle(fontSize: 20),),

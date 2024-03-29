@@ -10,19 +10,26 @@ import 'package:rahal_application/shared/network/remote/dio_helper.dart';
 import 'package:rahal_application/sqltest.dart';
 
 import 'dashboard.dart';
+import 'home pages/booked trip details.dart';
 import 'home pages/edit account data screen.dart';
 import 'home pages/register steps.dart';
 import 'home pages/specialtrip.dart';
 import 'home pages/test.dart';
+import 'home pages/trips categories.dart';
 import 'login.dart';
+
 
 void main()async {
   //el code dah 3l4an feh async fl main 3l4an y4ta8al el app kowayes :
   WidgetsFlutterBinding.ensureInitialized();
   //end of the code
-  await Firebase.initializeApp();
+  await Firebase.initializeApp()
+      .then((value) => print("connected hello" + value.options.asMap.toString()))
+      .catchError((e) => print('error broo${e.toString()}'));
   await cachehelper.init();
   await diohelper.init();
+
+
   runApp(const MyApp());
 }
 
@@ -48,7 +55,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         fontFamily: defaultarabicfont,
       ),
-      home:dashboard(),//isonboarging ?onboardingscreen():login_register_home(),
+      home: home(),//isonboarging ?onboardingscreen():login_register_home(),
     );
   }
 }

@@ -18,12 +18,17 @@ Widget defaultformfield({
   IconButton? suffixicon,
   String? prefixtext,
   int? maxlength,
+  int? maxlines,
+  int? minlines,
   String? Function(String?)? validation ,
   void Function(String)? onchange,
   TextEditingController? control,
   TextInputType? keyboardtype,
   bool ispassword=false,
   }) => TextFormField(
+  minLines:minlines?? 1,
+  maxLines:minlines?? 1,
+
   decoration: InputDecoration(
       counterText: '',
       labelText: labeltxt,
@@ -31,6 +36,7 @@ Widget defaultformfield({
       prefixText: prefixtext,
       prefixStyle:TextStyle(fontSize: 20),
       suffixIcon: suffixicon,
+
 
   ),
   validator: validation,
@@ -45,6 +51,7 @@ Widget defaultformfield({
 Widget defaultbutton({
  required String text,
  required void Function()?  function,
+  Color? color,
  bool condition = true,
   })=>ConditionalBuilder(
    condition:condition,
@@ -53,7 +60,7 @@ Widget defaultbutton({
      width: double.infinity,
      child: MaterialButton(onPressed: function,
        child: Text(text ,style: TextStyle(color: Colors.white,fontSize: 20),),
-       color: defaultcolor,
+       color: color??defaultcolor,
        shape: RoundedRectangleBorder(
          borderRadius: BorderRadius.circular(20.0),
        ),
@@ -113,8 +120,8 @@ Widget defaultcircle({
 })
 {
   return Container(
-    width: 32.0, // Adjust the size of the avatar
-    height: 32.0,
+    width: 37.0, // Adjust the size of the avatar
+    height: 37.0,
     decoration: BoxDecoration(
       shape: BoxShape.circle,
       color: fieldcolor,

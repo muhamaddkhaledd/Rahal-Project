@@ -10,6 +10,7 @@ import 'package:rahal_application/shared/cubit/states.dart';
 import 'package:rahal_application/shared/styles/colors.dart';
 
 import '../shared/components/components.dart';
+import 'contact us.dart';
 import 'edit account data screen.dart';
 
 class myaccount extends StatefulWidget {
@@ -71,7 +72,7 @@ class _myaccountState extends State<myaccount> {
                            child: Stack(
                              alignment: AlignmentDirectional.bottomEnd,
                              children: [
-                               CircleAvatar(radius: 75,child:constusers.profileimage==null||constusers.profileimage==''? Icon(Icons.account_circle,size: 150):null,backgroundImage:constusers.profileimage!=null? NetworkImage('${constusers.profileimage}'):null),
+                               CircleAvatar(radius: 75,child:constusers.profileimage==null||constusers.profileimage==''? Icon(Icons.account_circle,size: 150):null,backgroundImage:constusers.profileimage==null||constusers.profileimage==''? null:NetworkImage('${constusers.profileimage}')),
                                Visibility(
                                  visible: uid!='',
                                  child: GestureDetector(
@@ -99,7 +100,7 @@ class _myaccountState extends State<myaccount> {
                                                      navigateTo(context, home());
                                                    });
                                                  }),
-                                                 defaultprofilebuttons(text: 'ازاله الصوره الشخصية', icon: Icons.highlight_remove, function: (){
+                                                 defaultprofilebuttons(text: 'ازالة الصوره الشخصية', icon: Icons.highlight_remove, function: (){
                                                    app.edituserdata(profileimage: '').then((value) {
                                                      navigateTo(context, home());
                                                    });
@@ -124,11 +125,19 @@ class _myaccountState extends State<myaccount> {
                              padding: const EdgeInsets.all(8.0),
                              child: Column(
                                children: [
-                                 Text('ID : ${constusers.id}',style: TextStyle(fontSize: 20)),
-                                 Text('${constusers.email}',style: TextStyle(fontSize: 20)),
-                                 Text('${constusers.phone}',style: TextStyle(fontSize: 20)),
+                                 //Text('ID : ${constusers.id}',style: TextStyle(fontSize: 20)),
+                                 Row(
+                                   children: [
+                                     Expanded(child: Text('${constusers.email}',style: TextStyle(fontSize: 20),textDirection: TextDirection.rtl,textAlign: TextAlign.center)),
+                                   ],
+                                 ),
+                                 Text('(+20)${constusers.phone}',style: TextStyle(fontSize: 20)),
                                  Text('${constusers.birth} : تاريخ الميلاد',style: TextStyle(fontSize: 20)),
-                                 Text('${constusers.address} : العنوان ',style: TextStyle(fontSize: 20)),
+                                 Row(
+                                   children: [
+                                      Expanded(child: Text(' العنوان : ${constusers.address}',style: TextStyle(fontSize: 20),textDirection: TextDirection.rtl,textAlign: TextAlign.center,)),
+                                   ],
+                                 ),
                                ],
                              ),
                            ),
@@ -164,21 +173,12 @@ class _myaccountState extends State<myaccount> {
                        disable: uid=='',
                        visible: false,
                        underwidgets: [],
-                       text: 'الرحلات المحفوظة ',
+                       text: 'الرحلات المحفوظة',
                        begicon: Icons.bookmark_border,
                        ontap: (){
                          navigateTo(context, savedtrips());
                        }),
-                   SizedBox(height: 15,),
-                   defaultprofilesettings(
-                       disable: uid=='',
-                       visible: false,
-                       underwidgets: [],
-                       text: 'سجل رحلاتي ',
-                       begicon: Icons.history_outlined,
-                       ontap: (){
 
-                       }),
                    //SizedBox(height: 15,),
                    // defaultprofilesettings(
                    //   isactive: uid==''?false:true,
@@ -291,7 +291,7 @@ class _myaccountState extends State<myaccount> {
                    ),
                    SizedBox(height: 15,),
                    defaultprofilesettings(
-                     text: 'المساعده والدعم ',
+                     text: 'المساعدة والدعم ',
                      visible: helpvisible,
                      begicon: Icons.support,
                      ontap: () {
@@ -301,8 +301,12 @@ class _myaccountState extends State<myaccount> {
                      },
                      underwidgets:
                      [
-                       defaultprofilebuttons(text: 'الابلاغ عن مشكله', icon: Icons.error_outline, function: (){}),
-                       defaultprofilebuttons(text: 'الشروط والسياسات', icon: Icons.book_outlined, function: (){}),
+                       defaultprofilebuttons(text: 'الابلاغ عن مشكلة', icon: Icons.error_outline, function: (){
+                         navigateTo(context, contact( pageindex: 1,));
+                       }),
+                       defaultprofilebuttons(text: 'الشروط والسياسات', icon: Icons.book_outlined, function: (){
+                         navigateTo(context, contact( pageindex: 2,));
+                       }),
                      ] ,
                    ),
                    SizedBox(height: 15,),
@@ -317,50 +321,54 @@ class _myaccountState extends State<myaccount> {
                      },
                      underwidgets:
                      [
-                       defaultprofilebuttons(text: 'البريد الالكتروني الخاص بنا', icon: Icons.alternate_email_outlined, function: (){}),
-                       defaultprofilebuttons(text: 'ارقامنا', icon: Icons.numbers, function: (){}),
+                       defaultprofilebuttons(text: 'البريد الالكتروني الخاص بنا', icon: Icons.alternate_email_outlined, function: (){
+                         navigateTo(context, contact( pageindex: 3,));
+                       }),
+                       defaultprofilebuttons(text: 'ارقامنا', icon: Icons.numbers, function: (){
+                         navigateTo(context, contact( pageindex: 4,));
+                       }),
                      ] ,
                    ),
-                   SizedBox(height: 15,),
-                   defaultprofilesettings(
-                     text: 'الاعدادات ',
-                     visible: settingsvisible,
-                     begicon: Icons.settings,
-                     ontap: () {
-                       setState(() {
-                         settingsvisible=!settingsvisible;
-                       });
-                     },
-                     underwidgets:
-                     [
-                       Row(
-                         textDirection: TextDirection.rtl,
-                         children: [
-                           Icon(Icons.notifications_none_outlined),
-                           Text('الاشعارات',style: TextStyle(fontSize: 20),),
-                           Spacer(),
-                           Switch(value: isnotificationactive, onChanged: (value) {
-                             setState(() {
-                               isnotificationactive=value;
-                             });
-                           },)
-                         ],
-                       ),
-                       Row(
-                         textDirection: TextDirection.rtl,
-                         children: [
-                           Icon(Icons.dark_mode_outlined),
-                           Text('الوضع المظلم',style: TextStyle(fontSize: 20),),
-                           Spacer(),
-                           Switch(value: isdarkmodeactive, onChanged: (value) {
-                             setState(() {
-                               isdarkmodeactive=value;
-                             });
-                           },)
-                         ],
-                       ),
-                     ] ,
-                   ),
+                   // SizedBox(height: 15,),
+                   // defaultprofilesettings(
+                   //   text: 'الاعدادات ',
+                   //   visible: settingsvisible,
+                   //   begicon: Icons.settings,
+                   //   ontap: () {
+                   //     setState(() {
+                   //       settingsvisible=!settingsvisible;
+                   //     });
+                   //   },
+                   //   underwidgets:
+                   //   [
+                   //     Row(
+                   //       textDirection: TextDirection.rtl,
+                   //       children: [
+                   //         Icon(Icons.notifications_none_outlined),
+                   //         Text('الاشعارات',style: TextStyle(fontSize: 20),),
+                   //         Spacer(),
+                   //         Switch(value: isnotificationactive, onChanged: (value) {
+                   //           setState(() {
+                   //             isnotificationactive=value;
+                   //           });
+                   //         },)
+                   //       ],
+                   //     ),
+                   //     Row(
+                   //       textDirection: TextDirection.rtl,
+                   //       children: [
+                   //         Icon(Icons.dark_mode_outlined),
+                   //         Text('الوضع المظلم',style: TextStyle(fontSize: 20),),
+                   //         Spacer(),
+                   //         Switch(value: isdarkmodeactive, onChanged: (value) {
+                   //           setState(() {
+                   //             isdarkmodeactive=value;
+                   //           });
+                   //         },)
+                   //       ],
+                   //     ),
+                   //   ] ,
+                   // ),
                    SizedBox(height: 15,),
                    defaultprofilesettings(
                      visible: false,

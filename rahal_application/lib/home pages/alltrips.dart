@@ -13,6 +13,7 @@ import 'package:rahal_application/shared/cubit/cubit.dart';
 import 'package:rahal_application/shared/models/trips%20model.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import '../shared/cubit/states.dart';
+import '../shared/models/listtripsmodel.dart';
 import '../shared/styles/colors.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -24,7 +25,6 @@ class maintrip extends StatefulWidget {
 class _maintripState extends State<maintrip> {
 
   bool logoutvisibleflag=false;
-  int limit =3;
   bool connection=true;
   bool ordervisible=false;
 
@@ -33,7 +33,7 @@ class _maintripState extends State<maintrip> {
 
 
     return BlocProvider(
-        create: (context) => appcubit()..getuserdatafirebase()..gettripsdatafirebase(limit: limit,orderkey: orderkey,descending: decending,locations: locations,governments: governments)..checkconn(),
+        create: (context) => appcubit()..getuserdatafirebase()..gettripsdatafirebase(limit: limittrips,orderkey: orderkey,descending: decending,locations: locations,governments: governments,meetingplace: governmentkey)..checkconn(),
           child:
           BlocConsumer<appcubit,appstates>
             (listener: (context, state) { },
@@ -79,7 +79,7 @@ class _maintripState extends State<maintrip> {
                             //     filled: true
                             // ),textDirection: TextDirection.rtl,
                             // ),
-                            Divider(),
+                            Divider(color: Colors.transparent),
 
                             SizedBox(height: 10,),
                             Container(
@@ -118,7 +118,7 @@ class _maintripState extends State<maintrip> {
                                 ],
                               ),
                             ),
-                            Divider(),
+                            Divider(color: Colors.transparent),
                             ConditionalBuilder(
                               condition:state is !gettripsdatafirebaseloading,
                               fallback: (context) => Shimmer.fromColors(
@@ -145,40 +145,40 @@ class _maintripState extends State<maintrip> {
                               ),
                               builder: (context) => Column(
                                 children: [
+                                  // Visibility(
+                                  //   visible: uid==''&&logoutvisibleflag==false?true:false,
+                                  //   child: Column(
+                                  //     children: [
+                                  //       Container(
+                                  //         decoration: BoxDecoration(
+                                  //           color: Colors.yellow,
+                                  //           borderRadius: BorderRadius.circular(3),),
+                                  //         child: Row(
+                                  //           textDirection: TextDirection.rtl,
+                                  //           children: [
+                                  //             SizedBox(width: 15,),
+                                  //             GestureDetector(
+                                  //                 onTap: () {
+                                  //                   setState(() {
+                                  //                     logoutvisibleflag=true;
+                                  //                   });
+                                  //                 },
+                                  //                 child: Text('X',style: TextStyle(fontSize: 22),)),
+                                  //             SizedBox(width: 10,),
+                                  //             Text('الرجاء تسجيل الدخول او انشاء حساب اولا'),
+                                  //             Spacer(),
+                                  //             TextButton(onPressed: (){
+                                  //               navigateTo(context, login_register_home());
+                                  //             }, child: Text('متابعه')),
+                                  //           ],
+                                  //         ),
+                                  //       ),
+                                  //       SizedBox(height: 10,),
+                                  //     ],
+                                  //   ),
+                                  // ),
                                   Visibility(
-                                    visible: uid==''&&logoutvisibleflag==false?true:false,
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.yellow,
-                                            borderRadius: BorderRadius.circular(3),),
-                                          child: Row(
-                                            textDirection: TextDirection.rtl,
-                                            children: [
-                                              SizedBox(width: 15,),
-                                              GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      logoutvisibleflag=true;
-                                                    });
-                                                  },
-                                                  child: Text('X',style: TextStyle(fontSize: 22),)),
-                                              SizedBox(width: 10,),
-                                              Text('الرجاء تسجيل الدخول او انشاء حساب اولا'),
-                                              Spacer(),
-                                              TextButton(onPressed: (){
-                                                navigateTo(context, login_register_home());
-                                              }, child: Text('متابعه')),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 10,),
-                                      ],
-                                    ),
-                                  ),
-                                  Visibility(
-                                    visible: locations.isNotEmpty||orderkeyname!='افتراضي',
+                                    visible: locations.isNotEmpty||orderkeyname!='افتراضي'||governmentkey!='كل المحافظات',
                                     child: Container(
                                       padding: EdgeInsets.all(5),
                                       height: 50,
@@ -187,7 +187,7 @@ class _maintripState extends State<maintrip> {
                                         shrinkWrap: true,
                                          physics: BouncingScrollPhysics(),
                                         separatorBuilder: (context, index) => SizedBox(),
-                                        itemCount: locations.length+1,
+                                        itemCount:governmentkey!='كل المحافظات'? locations.length+2:locations.length+1,
                                         scrollDirection: Axis.horizontal,
                                         itemBuilder: (context, index)
                                         {
@@ -203,21 +203,38 @@ class _maintripState extends State<maintrip> {
                                                     app.datass=[];
                                                     app.documentSnapshot=null;
                                                     app.showmore=true;
-                                                    app.gettripsdatafirebase(limit: limit,orderkey: orderkey,descending: decending,locations: locations);
+                                                    app.gettripsdatafirebase(limit: limittrips,orderkey: orderkey,descending: decending,locations: locations,meetingplace: governmentkey);
+                                                  });
+                                                }
+                                              },
+                                            );
+                                          }
+                                          if(index==1&&governmentkey!='كل المحافظات'){
+                                            return defaultfilteractions(
+                                              title:'من ${governmentkey}',
+                                              pressed: true,
+                                              oncancel: () {
+                                                if(governmentkey!='كل المحافظات'){
+                                                  setState(() {
+                                                    governmentkey='كل المحافظات';
+                                                    app.datass=[];
+                                                    app.documentSnapshot=null;
+                                                    app.showmore=true;
+                                                    app.gettripsdatafirebase(limit: limittrips,orderkey: orderkey,descending: decending,locations: locations,meetingplace: governmentkey);
                                                   });
                                                 }
                                               },
                                             );
                                           }
                                           return defaultfilteractions(
-                                              title: locations[index-1],
+                                              title: governmentkey=='كل المحافظات'? locations[index-1]:locations[index-2],
                                               pressed: true,
                                               oncancel: () {
-                                                locations.remove(locations[index-1]);
+                                                locations.remove(governmentkey=='كل المحافظات'? locations[index-1]:locations[index-2]);
                                                 app.datass=[];
                                                 app.documentSnapshot=null;
                                                 app.showmore=true;
-                                                app.gettripsdatafirebase(limit: limit,orderkey: orderkey,descending: decending,locations: locations);
+                                                app.gettripsdatafirebase(limit: limittrips,orderkey: orderkey,descending: decending,locations: locations,meetingplace: governmentkey);
                                               },
                                           );
                                         },
@@ -241,7 +258,7 @@ class _maintripState extends State<maintrip> {
                                     shrinkWrap: true,
                                     separatorBuilder:(context, index) => SizedBox(height: 12,) ,
                                     itemBuilder:(context, index) {
-                                      tripsmodel model = app.datass[index];//the code of generating data
+                                      listtripsmodel model = app.datass[index];//the code of generating data
                                       return  Container(
                                         decoration: BoxDecoration(
                                           color: Colors.white,
@@ -253,8 +270,11 @@ class _maintripState extends State<maintrip> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
-                                              Text('${model.name}',style: TextStyle(fontSize: 32),maxLines: 2,overflow: TextOverflow.ellipsis),
-                                              Row(textDirection: TextDirection.rtl,children: [Icon(CupertinoIcons.calendar),SizedBox(width: 7,),Text('${model.date}'),],),
+                                              Text('${model.name}',style: TextStyle(fontSize: 20),maxLines: 2,overflow: TextOverflow.ellipsis,textDirection: TextDirection.rtl),
+
+                                              Row(textDirection: TextDirection.rtl,children: [Icon(CupertinoIcons.calendar),SizedBox(width: 7,),Text('${convertdateformat(model.date)}'),],),
+                                              SizedBox(height: 5,),
+                                              Text('التحرك من ${model.meetingplace}'),
                                               SizedBox(height: 5,),
                                               Row(textDirection: TextDirection.rtl,children: [Icon(CupertinoIcons.location_solid),SizedBox(width: 7,),Text('${model.location}'),],),
                                               Row(mainAxisAlignment: MainAxisAlignment.start,children: [Text('${model.price.toString()} جم'),SizedBox(width: 7,)],),
@@ -277,7 +297,7 @@ class _maintripState extends State<maintrip> {
                                     visible: app.showmore,
                                     child: ConditionalBuilder(
                                       condition: state is !loadmoredatafirebaseloading,
-                                      fallback:(context) => CircularProgressIndicator(),
+                                      fallback:(context) => CircularProgressIndicator(color: Colors.blue,),
                                       builder: (context) => MaterialButton(
                                         elevation: 0,
                                         focusElevation: 0,
@@ -289,7 +309,8 @@ class _maintripState extends State<maintrip> {
                                         color: Colors.amber,
                                         onPressed: (){
                                           setState(() {
-                                            app.gettripsdatafirebase(limit: limit,orderkey: orderkey,descending: decending,locations: locations,governments: governments);
+
+                                            app.gettripsdatafirebase(limit: limittrips,orderkey: orderkey,descending: decending,locations: locations,governments: governments,meetingplace: governmentkey);
                                           });
 
                                         },

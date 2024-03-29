@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>772036494212-mge2s1m5im2p97e9sd5tv2foj1rp955q.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.772036494212-mge2s1m5im2p97e9sd5tv2foj1rp955q</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>772036494212-9r2v9jj5rab1if3phrkn9mltotmrbodj.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB1AvTs1UsE4BMB5q46Ij3Rnt8jE647l4k</string>
+	<key>GCM_SENDER_ID</key>
+	<string>772036494212</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.rahal.rahalApplication</string>
+	<key>PROJECT_ID</key>
+	<string>rahal-aa1e3</string>
+	<key>STORAGE_BUCKET</key>
+	<string>rahal-aa1e3.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:772036494212:ios:eb16b70d1bec9105d0d3d1</string>
+</dict>
+</plist>

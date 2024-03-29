@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rahal_application/login.dart';
 import 'package:rahal_application/register.dart';
 import 'package:rahal_application/shared/network/dbdata.dart';
@@ -32,27 +33,33 @@ class _login_register_homeState extends State<login_register_home> with SingleTi
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(elevation: 0,toolbarHeight: 20,automaticallyImplyLeading: false,),
-      body: Column(
-        children: [
-          TabBar(
-            controller: _tabController,
-            tabs: [
-              Tab(child: Text('حساب جديد',style: TextStyle(fontSize: 20,color: Colors.black),),),
-              Tab(child: Text('تسجيل الدخول',style: TextStyle(fontSize: 20,color: Colors.black),),),
-            ],
-          ),
-          Expanded(
-            child: TabBarView(
+    return WillPopScope(
+      onWillPop: () async {
+          SystemNavigator.pop();
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(elevation: 0,toolbarHeight: 20,automaticallyImplyLeading: false,),
+        body: Column(
+          children: [
+            TabBar(
               controller: _tabController,
-              children: [
-                register(),
-                loginpage(),
+              tabs: [
+                Tab(child: Text('حساب جديد',style: TextStyle(fontSize: 20,color: Colors.black),),),
+                Tab(child: Text('تسجيل الدخول',style: TextStyle(fontSize: 20,color: Colors.black),),),
               ],
             ),
-          ),
-        ],
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  register(),
+                  loginpage(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

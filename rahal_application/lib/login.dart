@@ -105,7 +105,7 @@ Sqldb sqldb = Sqldb();
                         SizedBox(height: 20,),
                         defaultformfield(labeltxt: 'كلمه المرور',borderRediusSize: 20, icon: Icon(Icons.lock), control: password, keyboardtype:TextInputType.visiblePassword , ispassword: hidepassword,suffixicon: IconButton(onPressed: (){setState(() {hidepassword=!hidepassword;});}, icon: Icon(hidepassword? CupertinoIcons.eye_fill:CupertinoIcons.eye_slash_fill)),validation: (value) {
                           if(value!.isEmpty||!RegExp( r'^.{8,}$').hasMatch(value))
-                            return 'كلمه المرور التي ادخلتها قصيره جدا';
+                            return 'كلمه المرور التي ادخلتها قصيرة جدا';
                         },),
                         SizedBox(height: 20,),
                         defaultbutton(text: 'الدخول',
@@ -120,21 +120,21 @@ Sqldb sqldb = Sqldb();
                           }
                         }),
                         SizedBox(height: 20,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                                onTap: (){
-                                  setState(() {
-                                    isemail=!isemail;
-                                  });
-                                },
-
-                                child: Text('اضغط هنا ',style: TextStyle(color: Colors.blue),)),
-                            isemail ?Text('الدخول برقم الهاتف'):Text('الدخول بالبريد الالكتروني'),
-                            SizedBox(height: 100,),
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     GestureDetector(
+                        //         onTap: (){
+                        //           setState(() {
+                        //             isemail=!isemail;
+                        //           });
+                        //         },
+                        //
+                        //         child: Text('اضغط هنا ',style: TextStyle(color: Colors.blue),)),
+                        //     isemail ?Text('الدخول برقم الهاتف'):Text('الدخول بالبريد الالكتروني'),
+                        //     SizedBox(height: 100,),
+                        //   ],
+                        // ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

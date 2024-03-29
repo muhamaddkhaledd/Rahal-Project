@@ -136,7 +136,7 @@ class _editaccountState extends State<editaccount> {
               defaultformfield(labeltxt: 'رقم الهاتف', borderRediusSize: 10,
                 validation: (value) {
                   if(value!.isEmpty||!RegExp(r'^\d{11}$').hasMatch(value))
-                    return 'الرجاء كتابه رقم هاتف صالح';
+                    return 'الرجاء كتابة رقم هاتف صالح';
                 },
                 maxlength: 11,
                 prefixtext: '+20',
@@ -185,7 +185,7 @@ class _editaccountState extends State<editaccount> {
               defaultformfield(labeltxt: 'العنوان', borderRediusSize: 10,
                 validation: (value) {
                   if(value!.isEmpty)
-                    return 'الرجاء كتابه عنوان صالح';
+                    return 'الرجاء كتابة عنوان صالح';
                 },
                 control: addresschange,
                 keyboardtype: TextInputType.text,
@@ -285,17 +285,17 @@ class _editaccountState extends State<editaccount> {
             children: [
               Text('تغيير كلمه المرور'),
               SizedBox(height: 10,),
-              defaultformfield(labeltxt: 'كلمه المرور القديمه', borderRediusSize: 10,
+              defaultformfield(labeltxt: 'كلمه المرور القديمة', borderRediusSize: 10,
                 validation: (value) {
                   if(value!.isEmpty||oldpasswordchange.text!=constusers.password)
-                    return 'الرجاء كتابه كلمه مرور صحيحه';
+                    return 'الرجاء كتابة كلمة مرور صحيحة';
                 },
                 control: oldpasswordchange,
                 keyboardtype: TextInputType.text,
                 ispassword: true,
               ),
               SizedBox(height: 10,),
-              defaultformfield(labeltxt: 'كلمه المرور الجديده', borderRediusSize: 10,
+              defaultformfield(labeltxt: 'كلمه المرور الجديدة', borderRediusSize: 10,
                 validation: (value) {
                   if(value!.isEmpty||!RegExp( r'^.{8,}$').hasMatch(value))
                     return 'كلمه المرور التي ادخلتها قصيره جدا';

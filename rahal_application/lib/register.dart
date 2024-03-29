@@ -95,9 +95,9 @@ class _registerState extends State<register> {
                         SizedBox(height: 15,),
                         defaultformfield(labeltxt:'رقم الهاتف',borderRediusSize: 20,icon: Icon(Icons.phone), control:  phonenumber, keyboardtype: TextInputType.phone,prefixtext:'+20',validation: (value) {if(value!.isEmpty||!RegExp(r'^\d{11}$').hasMatch(value))return'من فضلك ادخل رقم هاتف صالح لا يقل عن 11 رقم';},maxlength: 11),
                         SizedBox(height: 15,),
-                        defaultformfield(labeltxt: 'كلمه المرور',borderRediusSize: 20, icon: Icon(Icons.lock), control: password, keyboardtype:TextInputType.visiblePassword , ispassword: hidepassword1,suffixicon: IconButton(onPressed: (){setState(() {hidepassword1=!hidepassword1;});}, icon: Icon(hidepassword1? CupertinoIcons.eye_fill:CupertinoIcons.eye_slash_fill)),validation: (value) {
+                        defaultformfield(labeltxt: 'كلمة المرور',borderRediusSize: 20, icon: Icon(Icons.lock), control: password, keyboardtype:TextInputType.visiblePassword , ispassword: hidepassword1,suffixicon: IconButton(onPressed: (){setState(() {hidepassword1=!hidepassword1;});}, icon: Icon(hidepassword1? CupertinoIcons.eye_fill:CupertinoIcons.eye_slash_fill)),validation: (value) {
                           if(value!.isEmpty||!RegExp( r'^(?=.*?[A-Za-z])(?=.*?[0-9]).{8,}$').hasMatch(value))
-                            return 'يجب ان تحتوي كلمه المرور علي اكثر من 8 كلمات وعلي الاقل رقم وحرف';
+                            return 'يجب ان تحتوي كلمة المرور علي اكثر من 8 كلمات وعلي الاقل رقم وحرف';
                         },),
                         SizedBox(height: 15,),
                         defaultformfield(labeltxt: 'تأكيد كلمه المرور',borderRediusSize: 20, icon: Icon(Icons.lock), control: passwordconfirm, keyboardtype:TextInputType.visiblePassword , ispassword: hidepassword2,suffixicon: IconButton(onPressed: (){setState(() {hidepassword2=!hidepassword2;});}, icon: Icon(hidepassword2? CupertinoIcons.eye_fill:CupertinoIcons.eye_slash_fill)),validation: (value) {

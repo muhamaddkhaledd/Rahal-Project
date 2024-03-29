@@ -13,6 +13,7 @@ import 'package:rahal_application/shared/cubit/cubit.dart';
 import 'package:rahal_application/shared/models/trips%20model.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import '../shared/cubit/states.dart';
+import '../shared/models/listtripsmodel.dart';
 import '../shared/styles/colors.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -106,7 +107,7 @@ class _specialtripState extends State<specialtrip> {
                                   shrinkWrap: true,
                                   separatorBuilder:(context, index) => SizedBox(height: 12,) ,
                                   itemBuilder:(context, index) {
-                                    tripsmodel model = app.datass[index];//the code of generating data
+                                    listtripsmodel model = app.datass[index];//the code of generating data
                                     return  Container(
                                       decoration: BoxDecoration(
                                         color: Colors.white,

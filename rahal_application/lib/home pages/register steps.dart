@@ -162,7 +162,7 @@ Widget secoundstep(appcubit app,appstates state,BuildContext context)
           SizedBox(height: 40,),
           CircleAvatar(backgroundColor: Colors.blueGrey[100],radius:100,backgroundImage: app.profileimage!=null?FileImage(app.profileimage!):null,child:app.profileimage==null? Icon(Icons.camera_alt,size: 80):null,),
           SizedBox(height: 40,),
-          defaultbutton(text: 'تحميل صوره',
+          defaultbutton(text: 'تحميل صورة',
             function: () {
             app.getprofileimage();
           },),

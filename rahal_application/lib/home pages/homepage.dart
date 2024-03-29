@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:rahal_application/home%20pages/register%20steps.dart';
 import 'package:rahal_application/home%20pages/trip%20details.dart';
+import 'package:rahal_application/home%20pages/trips%20categories.dart';
 import 'package:rahal_application/home.dart';
 import 'package:rahal_application/shared/components/components.dart';
 import 'package:rahal_application/shared/components/constants.dart';
@@ -25,7 +26,17 @@ class homepage extends StatefulWidget {
 class _homepageState extends State<homepage> {
   @override
   void initState() {
+
     locations=[];
+    orderkey='id';
+    decending=true;
+    orderkeyname='افتراضي';
+    governmentkey='كل المحافظات';
+    governmentkey2='كل المحافظات';
+    locations2=[];
+    orderkey2='id';
+    decending2=true;
+    orderkeyname2='افتراضي';
     super.initState();
   }
   int currentIndex=0;
@@ -45,19 +56,47 @@ class _homepageState extends State<homepage> {
       'assets/images/trips types/7.jpg',
       'assets/images/trips types/8.jpg',
     ];
-    List<String> triptypes=[
-      'رحلات تاريخية',
-      'رحلات للشواطئ',
-      'رحلات نيلية',
-      'رحلات دينية',
-      'رحلات ثقافية',
-      'رحلات ترفيهية',
-      'نزهه',
-      'رحلات متنوعة',
+    List<dynamic> placespics=[
+      'assets/images/places/1.jpg',
+      'assets/images/places/2.jpg',
+      'assets/images/places/3.jpg',
+      'assets/images/places/4.jpg',
+      'assets/images/places/5.jpg',
+      'assets/images/places/6.jpg',
+      'assets/images/places/7.jpg',
+      'assets/images/places/8.jpg',
+      'assets/images/places/9.jpg',
+      'assets/images/places/10.jpg',
+      'assets/images/places/11.jpg',
+      'assets/images/places/12.jpg',
+      'assets/images/places/13.jpg',
+      'assets/images/places/14.jpg',
+      'assets/images/places/15.jpg',
+      'assets/images/places/16.jpg',
+    ];
+    List<dynamic> pics = [
+      'assets/images/trips/1.png',
+      'assets/images/trips/2.png',
+      'assets/images/trips/3.png',
+      'assets/images/trips/4.png',
+      'assets/images/trips/5.png',
+      'assets/images/trips/6.png',
+      'assets/images/trips/7.png',
+      'assets/images/trips/8.png',
+    ];
+    List<Color?> colors=[
+      Colors.amber[100],
+      Colors.blue[100],
+      Colors.greenAccent[100],
+      Colors.orange[100],
+      Colors.teal[100],
+      Colors.red[100],
+      Colors.green[50],
+      Colors.yellow[100],
     ];
 
     return BlocProvider(
-      create: (context) => appcubit()..getuserdatafirebase()..checkconn()..getfeatured()..getofferscreen() ,
+      create: (context) => appcubit()..getuserdatafirebase()..checkconn()..getfeatured()..getofferscreen()..getplacesimages()..getcontactinfo(),
       child: BlocConsumer<appcubit,appstates>(
         listener: (context, state) { },
         builder: (context, state) {
@@ -87,7 +126,7 @@ class _homepageState extends State<homepage> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(bottomLeft:Radius.circular(60) ,bottomRight: Radius.circular(60)),
                         gradient: LinearGradient(
-                          colors: [defaultcolor, Colors.green],
+                          colors: [Colors.blueAccent,defaultcolor,Colors.deepPurpleAccent, ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
@@ -117,23 +156,22 @@ class _homepageState extends State<homepage> {
                                         borderRadius: BorderRadius.circular(20)
                                     ),
                                     clipBehavior: Clip.antiAlias,
-                                    child: Container(height: 200,),
+                                    child: Container(height: 187,),
                                   ),
                                 ),
-                                SizedBox(height: 10,),
+                                SizedBox(height: 5,),
                                 Container(
-                                  height: 50,
+                                  height: 90,
                                   child: ListView.separated(
-                                    physics: NeverScrollableScrollPhysics(),
+                                    reverse: true,
+                                    physics:BouncingScrollPhysics() ,
                                     scrollDirection: Axis.horizontal,
                                     separatorBuilder: (context, index) => SizedBox(width: 4),
-                                    itemCount: 4,
+                                    itemCount: 20,
                                     itemBuilder: (context, index) =>
                                         Card(
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
-                                          child: Container(
-                                            width: 90,
-                                          ),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
+                                          child: Container(width: 200,)
                                         ),
                                   ),
                                 ),
@@ -221,7 +259,7 @@ class _homepageState extends State<homepage> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
                                     width: double.infinity,
-                                    height: 150,
+                                    height: 130,
                                     decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(15)),
                                   ),
                                 ),
@@ -233,10 +271,14 @@ class _homepageState extends State<homepage> {
                               Row(
                                 textDirection: TextDirection.rtl,
                                 children: [
-                                  Text('الصفحه الرئيسيه',style: TextStyle(fontSize: 25,color: Colors.white)),
+                                  Text('الصفحه الرئيسية',style: TextStyle(fontSize: 25,color: Colors.white)),
                                   Spacer(),
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        setState(() {
+                                          navigateTo(context, home(initialIndex: 3,));
+                                        });
+                                      },
                                       icon: Icon(Icons.account_circle,size: 30,))
                                 ],
                               ),
@@ -314,37 +356,110 @@ class _homepageState extends State<homepage> {
                               // ),
                               SizedBox(height: 10,),
                               Container(
-                                height: 50,
+                                height: 120,
                                 child: ListView.separated(
                                   reverse: true,
                                   physics: BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
-                                  separatorBuilder: (context, index) => SizedBox(width: 4),
-                                  itemCount: placeses.length,
+                                  separatorBuilder: (context, index) => SizedBox(width: 8),
+                                  itemCount: triptypes.length,
                                   itemBuilder: (context, index) =>
                                       GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            locations.add(placeses[index]);
-                                            navigateTo(context, home(initialIndex: 1,));
+                                            navigateTo(context,tripscategories(assetPaths[index], triptypes[index]));
                                           });
                                           print('hooooo');
                                         },
                                         child: Card(
-                                          color: Colors.blueGrey[50],
-                                          elevation: 7,
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
+                                          color: colors[index],
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12),),
                                           child: Container(
-                                            width: 90,
-                                            child: Center(child: Text('${placeses[index]}',textAlign: TextAlign.center,style: TextStyle(color: Colors.black,fontSize: 13))),
+                                            width: 220,
+                                            child: Row(
+                                              textDirection: TextDirection.rtl,
+                                              children: [
+                                                SizedBox(width: 10),
+                                                Expanded(child: Text('${triptypes[index]}',textAlign: TextAlign.center,style: TextStyle(color: Colors.black,fontSize: 15))),
+                                                Expanded(child: Padding(
+                                                  padding: const EdgeInsets.all(5.0),
+                                                  child: Image.asset(pics[index]),
+                                                )),
+
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
                                 ),
                               ),
+                              // Container(
+                              //   height: 90,
+                              //   child: ListView.separated(
+                              //     reverse: true,
+                              //     physics: BouncingScrollPhysics(),
+                              //     scrollDirection: Axis.horizontal,
+                              //     separatorBuilder: (context, index) => SizedBox(width: 4),
+                              //     itemCount: placeses.length,
+                              //     itemBuilder: (context, index) =>
+                              //         GestureDetector(
+                              //           onTap: () {
+                              //             setState(() {
+                              //               locations.add(placeses[index]);
+                              //               navigateTo(context, home(initialIndex: 1,));
+                              //             });
+                              //             print('hooooo');
+                              //           },
+                              //           child: Card(
+                              //             color: Colors.transparent,
+                              //             elevation: 7,
+                              //             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40),),
+                              //             child: CircleAvatar(
+                              //               backgroundColor: Colors.transparent,
+                              //               radius: 45,
+                              //               child: ClipOval(
+                              //                 child: Stack(
+                              //                   children: [
+                              //                     Center(
+                              //                       child: Container(
+                              //                         height:120,
+                              //                         child: Image.asset(placespics[index],fit: BoxFit.cover),
+                              //                       ),
+                              //                     ),
+                              //                     Positioned.fill(
+                              //                       child: Container(
+                              //                         decoration: BoxDecoration(
+                              //                           color: Colors.black.withOpacity(0.3),
+                              //                         ),
+                              //                         child:Center(
+                              //                           child: Container(
+                              //                             padding: EdgeInsets.all(3),
+                              //                             constraints: BoxConstraints(minWidth: 80),
+                              //                             margin: EdgeInsets.all(5),
+                              //                               child: Column(
+                              //                                 mainAxisAlignment: MainAxisAlignment.center,
+                              //                                 children: [
+                              //                                   Divider(height: 1),
+                              //                                   Text(placeses[index],style: TextStyle(fontSize: 10,color: Colors.white),textAlign: TextAlign.center),
+                              //                                   Divider(height: 1),
+                              //                                 ],
+                              //                               )),
+                              //                         ) ,
+                              //                         // Semi-transparent black color
+                              //                       ),
+                              //                     ),
+                              //                   ],
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //           ),
+                              //         ),
+                              //   ),
+                              // ),
                               SizedBox(height: 18,),
                               CarouselSlider(
-                                items: assetPaths.asMap().entries.map((entry) {
+                                items: placespics.asMap().entries.map((entry) {
                                   int index = entry.key;
                                   String assetPath = entry.value;
                                   bool isSelected = index == selectedImageIndex;
@@ -420,8 +535,8 @@ class _homepageState extends State<homepage> {
                                                            child: TextButton(
                                                           onPressed: (){
                                                              setState(() {
-                                                               print(triptypes[index]);
-                                                             });
+                                                               locations.add(placeses[index]);
+                                                               navigateTo(context, home(initialIndex: 1,));                                                             });
                                                            },
                                                              style: ButtonStyle(
                                                                  splashFactory: NoSplash.splashFactory,
@@ -467,7 +582,7 @@ class _homepageState extends State<homepage> {
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  triptypes[tripstypeindex],
+                                                  placeses[tripstypeindex],
                                                   style: TextStyle(fontSize: 20, color: Colors.white),
                                                 ),
                                               ),
@@ -499,7 +614,7 @@ class _homepageState extends State<homepage> {
                               Row(
                                 textDirection: TextDirection.rtl,
                                 children: [
-                                  Text('مميزه',style: TextStyle(fontSize: 25,color: Colors.black)),
+                                  Text('مميزة',style: TextStyle(fontSize: 25,color: Colors.black)),
                                   Spacer(),
                                   GestureDetector(
                                       onTap: (){
@@ -597,17 +712,11 @@ class _homepageState extends State<homepage> {
                                                           children: [
                                                             Container(
                                                                 width: 180,
-                                                                child: Text('${model.name}',
-                                                                  style: TextStyle(
-                                                                      fontSize: 30),
-                                                                  textAlign: TextAlign
-                                                                      .right,
-                                                                  maxLines: 2,
-                                                                  overflow: TextOverflow
-                                                                      .ellipsis,)),
+                                                                child: Text('${model.name}',style: TextStyle(fontSize: 16), textAlign: TextAlign.right, maxLines: 3,
+                                                                  overflow: TextOverflow.ellipsis,)),
                                                             Text('${model.price} جم',textDirection: TextDirection.rtl,
                                                                 style: TextStyle(
-                                                                    fontSize: 15)),
+                                                                    fontSize: 12)),
                                                           ],
                                                         ),
                                                       ),
@@ -621,12 +730,12 @@ class _homepageState extends State<homepage> {
                                                                 Icon(CupertinoIcons
                                                                     .location_solid),
                                                                 Container(
-                                                                    width: 80,
+                                                                    width: 70,
                                                                     child: Text('${model.location}',textDirection: TextDirection.rtl,maxLines: 3,overflow: TextOverflow.ellipsis,)),
 
                                                                 Icon(CupertinoIcons
                                                                     .calendar),
-                                                                Text('${model.date}'),
+                                                                Text('${convertdateformat(model.date)}',style: TextStyle(fontSize: 14)),
                                                               ]),
                                                         ],
                                                       ),

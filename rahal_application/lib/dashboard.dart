@@ -105,26 +105,26 @@ class dashboard extends StatelessWidget {
                   },),
               ),
               SizedBox(height: 10,),
-              Text('اضافه رحله',style: TextStyle(fontSize: 30)),
+              Text('اضافه رحلة',style: TextStyle(fontSize: 30)),
               Form(
                 key:formkey ,
                   child:
                   Column(
                     children: [
                       defaultformfield(
-                          labeltxt: 'اسم الرحله',
+                          labeltxt: 'اسم الرحلة',
                           borderRediusSize: 15,
                         keyboardtype: TextInputType.name,
                         control: addtripcontroler,
                       ),
                       defaultformfield(
-                        labeltxt: 'سعر الرحله',
+                        labeltxt: 'سعر الرحلة',
                         borderRediusSize: 15,
                         keyboardtype: TextInputType.number,
                         control: addtripcontroler,
                       ),
                       defaultformfield(
-                        labeltxt: 'سعر الرحله',
+                        labeltxt: 'سعر الرحلة',
                         borderRediusSize: 15,
                         keyboardtype: TextInputType.number,
                         control: addtripcontroler,

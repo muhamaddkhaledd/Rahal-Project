@@ -6,7 +6,7 @@ class tripsmodel
   String? id ;
   String? name;
   String? location;
-  String? date;
+  Timestamp? date;
   int? price;
   String? meetingplace;
   String? movingtimes;
@@ -16,7 +16,7 @@ class tripsmodel
   int? seats;
   List<dynamic>? images;
   GeoPoint? googlemaps;
-
+  String? triptype;
   tripsmodel.fromjson(Map<String,dynamic> json)
   {
     id= json['id'];
@@ -32,6 +32,7 @@ class tripsmodel
     seats = json['seats'];
     images = json['images'];
     googlemaps=json['googlemaps'];
+    triptype = json['triptype'];
   }
   tripsmodel({
     this.id,
@@ -46,5 +47,6 @@ class tripsmodel
     this.tripprogram,
     this.images,
     this.googlemaps,
+    this.triptype,
 });
 }

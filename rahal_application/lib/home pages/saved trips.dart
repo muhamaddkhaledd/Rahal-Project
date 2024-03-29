@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:rahal_application/home%20pages/trip%20details.dart';
+import 'package:rahal_application/shared/components/constants.dart';
 import 'package:rahal_application/shared/cubit/cubit.dart';
 import 'package:rahal_application/shared/styles/colors.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
@@ -30,22 +31,27 @@ class _savedtripsState extends State<savedtrips> {
           builder: (context, state) {
             appcubit app = appcubit.get(context);
 
-            return SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  Text('الرحلات المحفوظة',style: TextStyle(fontSize: 40,color: Colors.white),),
-
-                  ConditionalBuilder(
-                    condition: state is !getfavouritesloading,
-                    fallback: (context) => Center(child: CircularProgressIndicator(),),
-                    builder: (context) => Padding(
-                      padding: EdgeInsets.only(left: 10,right:10 ,top: 15),
-                      child:app.fav.length==0?
-                      Center(child: Text('لا يوجد اي رحلات محفوظة',style: TextStyle(fontSize: 20),))
-                          :Container(
-                        decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(15)),
-                        child: Column(
+            return ConditionalBuilder(
+              condition: state is !getfavouritesloading,
+              fallback: (context) => Center(child: SpinKitRotatingCircle(color: Colors.white),),
+              builder: (context) => SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10,right:10 ,top: 15),
+                  child:app.fav.length==0?
+                  Center(child: Text('لا يوجد اي رحلات محفوظة',style: TextStyle(fontSize: 20,color: Colors.white),))
+                      :Column(
+                        children: [
+                          Row(
+                            textDirection: TextDirection.rtl,
+                            children: [
+                              Text('الرحلات المحفوظة',style: TextStyle(fontSize: 20,color: Colors.white),),
+                            ],
+                          ),
+                          SizedBox(height: 7,),
+                          Container(
+                           decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(15)),
+                           child: Column(
                           children: [
                             ListView.separated(
                                 physics: NeverScrollableScrollPhysics(),
@@ -95,26 +101,27 @@ class _savedtripsState extends State<savedtrips> {
                                             ),
                                           ),
                                           SizedBox(width: 10,),
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                            children: [
-                                              Text('${model.name}',style: TextStyle(fontSize: 30),),
-                                              Row(
-                                                textDirection: TextDirection.rtl,
-                                                children: [
-                                                  Icon(CupertinoIcons.location_solid),
-                                                  Text('${model.location}'),
-                                                ],
-                                              ),
-                                              Row(
-                                                textDirection: TextDirection.rtl,
-                                                children: [
-                                                  Icon(CupertinoIcons.calendar),
-                                                  Text('${model.date}'),
-                                                ],
-                                              ),
-                                            ],),
-                                          Spacer(),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                              children: [
+                                                Text('${model.name}',style: TextStyle(fontSize: 20),textDirection: TextDirection.rtl,maxLines: 2,overflow: TextOverflow.ellipsis),
+                                                Row(
+                                                  textDirection: TextDirection.rtl,
+                                                  children: [
+                                                    Icon(CupertinoIcons.location_solid),
+                                                    Text('${model.location}'),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  textDirection: TextDirection.rtl,
+                                                  children: [
+                                                    Icon(CupertinoIcons.calendar),
+                                                    Text('${convertdateformat(model.date)}'),
+                                                  ],
+                                                ),
+                                              ],),
+                                          ),
                                           IconButton(onPressed: (){
                                             showModalBottomSheet(
                                                 backgroundColor: Colors.white,
@@ -132,10 +139,10 @@ class _savedtripsState extends State<savedtrips> {
                                                     child: Column(
                                                       mainAxisSize: MainAxisSize.min,
                                                       children: [
-                                                        defaultprofilebuttons(text: 'الدخول الي تفاصيل الرحله', icon: CupertinoIcons.arrow_right, function: (){
+                                                        defaultprofilebuttons(text: 'الدخول الي تفاصيل الرحلة', icon: CupertinoIcons.arrow_right, function: (){
                                                           navigateTo(context, tripdetails(id: '${model.id}'));
                                                         }),
-                                                        defaultprofilebuttons(text: 'ازاله الرحله من الرحلات المحفوظة', icon: Icons.highlight_remove, function: (){
+                                                        defaultprofilebuttons(text: 'ازاله الرحلة من الرحلات المحفوظ', icon: Icons.highlight_remove, function: (){
                                                           app.removesavetrips(model);
                                                           app.fav.remove(model);
                                                           Navigator.pop(context);
@@ -177,11 +184,11 @@ class _savedtripsState extends State<savedtrips> {
                               ),
                             ),
                           ],
-                        ),
+                                                  ),
+                                                ),
+                        ],
                       ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             );
           },
