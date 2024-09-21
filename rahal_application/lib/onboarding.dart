@@ -26,9 +26,9 @@ class _onboardingscreenState extends State<onboardingscreen> {
 
 List<boardingmodel> boarding =
 [
-  boardingmodel(Image: 'assets/images/onboarding pic1.png', title:'اسهل طريقه للتنقل والرحلات' ),
-  boardingmodel(Image: 'assets/images/onboarding pic2.png', title:'اختار وجهتك انت واصدقائك' ),
-  boardingmodel(Image: 'assets/images/onboarding pic3.png', title:'مواعيد رحلات منضبطه' ),
+  boardingmodel(Image: 'assets/images/onboarding pic1.png', title:'اسهل طريقة لحجز الرحلات' ),
+  boardingmodel(Image: 'assets/images/onboarding pic2.png', title:'رحلات متنوعة داخل التطبيق' ),
+  boardingmodel(Image: 'assets/images/onboarding pic3.png', title:'مواعيد رحلات منضبطة' ),
 ];
 bool islast=false;
   @override

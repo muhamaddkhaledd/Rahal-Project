@@ -9,6 +9,7 @@ import 'package:rahal_application/shared/components/components.dart';
 import 'package:rahal_application/shared/cubit/cubit.dart';
 import 'package:rahal_application/shared/styles/colors.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../shared/components/constants.dart';
 import '../shared/cubit/states.dart';
 import '../shared/models/trips model.dart';
@@ -28,6 +29,175 @@ int currentIndex = 0;
 LatLng? position;
 bool isloading=false;
 bool tripavilable=true;
+List<String> orginizersphones=['01143588294','01287652588','012787788374'];
+Map<String,dynamic> orginizerssocial={'فيسبوك':'https://www.facebook.com/profile.php?id=100056933597915','انستجرام':'','تويتر':'','سنابشات':''};
+int childage=10;
+int childpay=200;
+List<String> placesvisit=['كافية نسمة','فندق ماس'];
+int nights=0;
+String hotelname='فندق ماس';
+int hotelstars=3;
+List<int> roomtypes=[1,2,3,4];
+List<String> hotelmeals=['افطار','غداء','عشاء'];
+String hoteladdress='اسوان';
+String moretripdetails='يوجد اكوابارك ومسابح';
+
+String? datastostring(List<dynamic>? datas){
+  String str='';
+  if(datas!=null) {
+    for (String i in datas) {
+      if (i == datas.last)
+        str += '$i';
+      else
+        str += '$i ,';
+    }
+  }
+  return str;
+}
+Widget roomstypes(String roomtype){
+  if(roomtype=='single'){
+    return Container(
+      padding: EdgeInsetsDirectional.only(top:5 ,bottom: 5,start: 10,end: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey, width: 1.0),
+        borderRadius: BorderRadius.circular(6.0),),
+      child: Icon(CupertinoIcons.person),
+    );
+  }
+  if(roomtype=='double'){
+    return Container(
+      padding: EdgeInsetsDirectional.only(top:5 ,bottom: 5,start: 10,end: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey, width: 1.0),
+        borderRadius: BorderRadius.circular(6.0),),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        textDirection: TextDirection.rtl,
+        children: [
+          Icon(CupertinoIcons.person),
+          Icon(CupertinoIcons.person),
+        ],
+      ),
+    );
+  }
+  if(roomtype=='triple'){
+    return Container(
+      padding: EdgeInsetsDirectional.only(top:5 ,bottom: 5,start: 10,end: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey, width: 1.0),
+        borderRadius: BorderRadius.circular(6.0),),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        textDirection: TextDirection.rtl,
+        children: [
+          Icon(CupertinoIcons.person),
+          Icon(CupertinoIcons.person),
+          Icon(CupertinoIcons.person),
+        ],
+      ),
+    );
+  }
+  else if(roomtype=='suite'){
+    return Container(
+      padding: EdgeInsetsDirectional.only(
+          top: 5, bottom: 5, start: 10, end: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey, width: 1.0),
+        borderRadius: BorderRadius.circular(6.0),),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        textDirection: TextDirection.rtl,
+        children: [
+          Icon(Icons.business_outlined),
+          SizedBox(width: 5),
+          Text('جناح'),
+        ],
+      ),
+    );
+  }
+  else return Container();
+}
+
+List<String> services = [
+  'مسبح خارجي',
+  'مطعم',
+  'انترنت',
+  'شرفة',
+  'حديقة',
+  'تكييف',
+  'خدمة الغرف',
+  'شاطئ البحر',
+  'موقف سيارات',
+  'بوفيه مفتوح',
+  'وجبات خفيفة',
+  'غرف لغير المدخنين',
+  'بار',
+  'اكوابارك',
+  'منتجع صحي',
+  'أنشطة رياضية',
+  'صالة ألعاب رياضية'
+];
+Widget servicescontainer(String text,IconData icon){
+  return Container(
+    padding: EdgeInsetsDirectional.only(top:5 ,bottom: 5,start: 10,end: 10),
+    decoration: BoxDecoration(
+      border: Border.all(color: Colors.grey, width: 1.0),
+      borderRadius: BorderRadius.circular(6.0),),
+    child: Row(
+      textDirection: TextDirection.rtl,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon),
+        SizedBox(width: 6,),
+        Text('$text'),
+      ],
+    ),
+  );
+}
+Widget serviceslist(String services){
+
+
+  if (services == 'مسبح خارجي') {
+    return servicescontainer(services,Icons.pool);
+  } else if (services == 'مطعم') {
+    return servicescontainer(services,Icons.restaurant);
+  } else if (services == 'انترنت') {
+    return servicescontainer(services,CupertinoIcons.wifi);
+  } else if (services == 'شرفة') {
+    return servicescontainer(services,Icons.home_outlined);
+  } else if (services == 'حديقة') {
+    return servicescontainer(services,Icons.park_outlined);
+  } else if (services == 'تكييف') {
+    return servicescontainer(services,Icons.ac_unit);
+  } else if (services == 'خدمة الغرف') {
+    return servicescontainer(services,Icons.room_service_outlined);
+  } else if (services == 'شاطئ البحر') {
+    return servicescontainer(services,Icons.beach_access_outlined);
+  } else if (services == 'موقف سيارات') {
+    return servicescontainer(services,Icons.local_parking_rounded);
+  } else if (services == 'بوفيه مفتوح') {
+    return servicescontainer(services,Icons.fastfood_outlined);
+  } else if (services == 'وجبات خفيفة') {
+    return servicescontainer(services,Icons.emoji_food_beverage_outlined);
+  } else if (services == 'غرف لغير المدخنين') {
+    return servicescontainer(services,Icons.smoke_free);
+  } else if (services == 'بار') {
+    return servicescontainer(services,Icons.wine_bar);
+  } else if (services == 'اكوابارك') {
+    return servicescontainer(services,Icons.pool_rounded);
+  } else if (services == 'منتجع صحي') {
+    return servicescontainer(services,Icons.spa_outlined);
+  } else if (services == 'أنشطة رياضية') {
+    return servicescontainer(services,Icons.golf_course_sharp);
+  } else if (services == 'صالة ألعاب رياضية') {
+    return servicescontainer(services,Icons.fitness_center);
+  } else {
+    // Handle unknown service
+  }
+  return Container();
+}
+
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -160,7 +330,7 @@ bool tripavilable=true;
                           Padding(
                             padding: const EdgeInsets.all(20.0),
                             child: Container(
-                              decoration: BoxDecoration(color: Colors.blueGrey[100],borderRadius: BorderRadius.circular(10)),
+                              decoration: BoxDecoration(color: Colors.grey[350],borderRadius: BorderRadius.circular(10)),
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Column(
@@ -169,8 +339,7 @@ bool tripavilable=true;
                                       textDirection: TextDirection.rtl,
                                       children: [
                                         Text('السعر',style: TextStyle(fontSize:20),),
-                                        Spacer(),
-                                        Text('${app.modelid!.price.toString()}',style: TextStyle(fontSize:20),),
+                                        Expanded(child: Text('${app.modelid!.price.toString()}',style: TextStyle(fontSize:20),)),
                                       ],
                                     ),
                                     Divider(
@@ -182,8 +351,7 @@ bool tripavilable=true;
                                       textDirection: TextDirection.rtl,
                                       children: [
                                         Text('مكان الرحلة',style: TextStyle(fontSize:20),),
-                                        Spacer(),
-                                        Text('${app.modelid!.location}',style: TextStyle(fontSize:20),),
+                                        Expanded(child: Text('${app.modelid!.location}',style: TextStyle(fontSize:20),)),
                                       ],
                                     ),
                                     Divider(
@@ -195,8 +363,7 @@ bool tripavilable=true;
                                       textDirection: TextDirection.rtl,
                                       children: [
                                         Text('موعد الرحلة',style: TextStyle(fontSize:20),),
-                                        Spacer(),
-                                        Text('${convertdateformat(app.modelid!.date)}',style: TextStyle(fontSize:20),),
+                                        Expanded(child: Text('${convertdateformat(app.modelid!.date)}',style: TextStyle(fontSize:20),)),
                                       ],
                                     ),
                                     Divider(
@@ -208,8 +375,7 @@ bool tripavilable=true;
                                       textDirection: TextDirection.rtl,
                                       children: [
                                         Text('التحرك من',style: TextStyle(fontSize:20),),
-                                        Spacer(),
-                                        Text('${app.modelid!.meetingplace}',style: TextStyle(fontSize:20),),
+                                        Expanded(child: Text('${app.modelid!.meetingplace}',style: TextStyle(fontSize:20),)),
                                       ],
                                     ),
                                     Divider(
@@ -221,8 +387,7 @@ bool tripavilable=true;
                                       textDirection: TextDirection.rtl,
                                       children: [
                                         Text('نوع الرحلة',style: TextStyle(fontSize:20),),
-                                        Spacer(),
-                                        Text('${app.modelid!.triptype}',style: TextStyle(fontSize:20),),
+                                        Expanded(child: Text('${app.modelid!.triptype}',style: TextStyle(fontSize:20),)),
                                       ],
                                     ),
                                     Divider(
@@ -234,8 +399,7 @@ bool tripavilable=true;
                                       textDirection: TextDirection.rtl,
                                       children: [
                                         Text('منظم الرحلة',style: TextStyle(fontSize:20),),
-                                        Spacer(),
-                                        Text('${app.modelid!.triporganizer}',style: TextStyle(fontSize:20),),
+                                        Expanded(child: Text('${app.modelid!.triporganizer}',style: TextStyle(fontSize:20),)),
                                       ],
                                     ),
                                     Divider(
@@ -247,8 +411,7 @@ bool tripavilable=true;
                                       textDirection: TextDirection.rtl,
                                       children: [
                                         Text('المقاعد المتاحة',style: TextStyle(fontSize:20),),
-                                        Spacer(),
-                                        Text('${app.modelid!.seats.toString()}',style: TextStyle(fontSize:20),),
+                                        Expanded(child: Text('${app.modelid!.seats.toString()}',style: TextStyle(fontSize:20),)),
                                       ],
                                     ),
                                   ],
@@ -306,11 +469,150 @@ bool tripavilable=true;
                                   children: [
                                     Icon(Icons.location_on_outlined),
                                     SizedBox(width: 7,),
-                                    Text('عنوان مكان التجمع',style: TextStyle(fontSize: 25),),
+                                    Text('عنوان مكان التحرك',style: TextStyle(fontSize: 25),),
                                   ],
                                 ),
                                 SizedBox(height: 10,),
                                 Text('${app.modelid!.meetingaddress}',textDirection: TextDirection.rtl),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 30,),
+                          Padding(
+                            padding: EdgeInsets.only(left: 25.0, right: 25.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
+                                  textDirection: TextDirection.rtl,
+                                  children: [
+                                    Icon(Icons.menu),
+                                    SizedBox(width: 7,),
+                                    Text('تفاصيل عن الرحلة',style: TextStyle(fontSize: 25),),
+                                  ],
+                                ),
+                                SizedBox(height: 10,),
+                                Text('الاطفال المرافقين تحت ${app.modelid!.childage.toString()} سنة يتم دفع ${app.modelid!.childpay.toString()} جم لهم',textDirection: TextDirection.rtl),
+                                Text('الاماكن المُراد زيارتها :${datastostring(app.modelid!.placesvisit)}',textDirection: TextDirection.rtl),
+                                Text('عدد الليالي : ${app.modelid!.nights}',textDirection: TextDirection.rtl),
+                                Visibility(
+                                  visible: app.modelid!.hotelorvillagename!=null,
+                                    child: Text('اسم الفندق / القرية السياحية : ${app.modelid!.hotelorvillagename}',textDirection: TextDirection.rtl)
+                                ),
+                                Visibility(
+                                  visible: app.modelid!.hotelstars!=null,
+                                  child: Wrap(
+                                    textDirection: TextDirection.rtl,
+                                    spacing: 0,
+                                    runSpacing: 0,
+                                    children:List.generate(5, (index) {
+                                      if(app.modelid!.hotelstars!=null) {
+                                        if (index >app.modelid!.hotelstars! - 1) {
+                                          return Icon(
+                                            Icons.star_border, size: 13,);
+                                        }
+                                      }
+                                      return Icon(Icons.star,size: 13,);
+                                    }
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  textDirection: TextDirection.rtl,
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        textDirection: TextDirection.rtl,
+                                        children: [
+                                          Icon(Icons.location_on_outlined),
+                                          Expanded(child: Text('${app.modelid!.tripplaceaddress}',textDirection: TextDirection.rtl,))
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        textDirection: TextDirection.rtl,
+                                        children: [
+                                          Icon(Icons.restaurant),
+                                          Expanded(child: Text('${datastostring(app.modelid!.meals)}',textDirection: TextDirection.rtl,))
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Visibility(visible: app.modelid!.roomtypes!=null,child: SizedBox(height: 5,)),
+                                Visibility(
+                                  visible: app.modelid!.roomtypes!=null,
+                                  child: Wrap(
+                                    textDirection: TextDirection.rtl,
+                                    spacing: 5,
+                                    runSpacing: 5,
+                                    children:List.generate(app.modelid!.roomtypes?.length??0, (index){
+                                    return roomstypes(app.modelid!.roomtypes?[index]??'');
+                                  } ),),
+                                ),
+                                Visibility(visible: app.modelid!.services!=null,child: SizedBox(height: 15,)),
+                                Visibility(visible: app.modelid!.services!=null,child: Text('خدمات')),
+                                Visibility(visible: app.modelid!.services!=null,child: SizedBox(height: 10,)),
+                                Visibility(
+                                  visible: app.modelid!.services!=null,
+                                  child: Container(
+                                    height: 40,
+                                    child: ListView.separated(
+                                      reverse: true,
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: app.modelid!.services?.length??0,
+                                        itemBuilder: (context, index) {
+                                          return serviceslist(app.modelid!.services?[index]);
+                                        },
+                                        separatorBuilder: (context, index) {
+                                          return SizedBox(width: 6,);
+                                        },
+                                    ),
+                                  ),
+                                ),
+                                Visibility(visible: app.modelid!.moretripdetails!=null,child: SizedBox(height: 10,)),
+                                Visibility(visible: app.modelid!.moretripdetails!=null,child: Text(': تفاصيل اخري')),
+                                Visibility(visible: app.modelid!.moretripdetails!=null,child: Text('${app.modelid!.moretripdetails}')),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 30,),
+                          Padding(
+                            padding: EdgeInsets.only(left: 25.0, right: 25.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
+                                  textDirection: TextDirection.rtl,
+                                  children: [
+                                    Icon(Icons.checklist),
+                                    SizedBox(width: 7,),
+                                    Text('تفاصيل عن مُنظم الرحلة',style: TextStyle(fontSize: 25),),
+                                  ],
+                                ),
+                                SizedBox(height: 10,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text('اسم مُنظم الرحلة : ${app.modelid!.triporganizer}',textDirection: TextDirection.rtl),
+                                    Text('ارقام هاتف للتواصل : ${datastostring(app.modelid!.orginizersphones)}',textDirection: TextDirection.rtl),
+                                    Visibility(visible: app.modelid?.orginizerssocial !=null ,child: Text('روابط صفحات التواصل الاجتماعي : ',textDirection: TextDirection.rtl)),
+                                    Wrap(
+                                      textDirection: TextDirection.rtl,
+                                      spacing: 15,
+                                      runSpacing: 4,
+                                      children:
+                                      List.generate(
+                                          app.modelid?.orginizerssocial?.length??0,(index) {
+                                        return GestureDetector(onTap: () {launch('${app.modelid!.orginizerssocial?.values.toList()[index]}');},child: Text('${app.modelid!.orginizerssocial?.keys.toList()[index]}',style: TextStyle(color: Colors.blue),),);
+                                      }
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -321,7 +623,7 @@ bool tripavilable=true;
                               padding: const EdgeInsets.all(15.0),
                               child:app.favbool==false?
                               defaultprofilebuttons(
-                                text: 'اضف الرحل الي العناصر المحفوظة',
+                                text: 'اضف الرحلة الي العناصر المحفوظة',
                                 icon: Icons.bookmark_border,
                                 function: () {
                                   app.savetrips(app.modelid!);
@@ -329,7 +631,7 @@ bool tripavilable=true;
                               },
                               ):
                               defaultprofilebuttons(
-                                text: 'ازاله الرحل من العناصر المحفوظة',
+                                text: 'ازالة الرحلة من العناصر المحفوظة',
                                 icon: Icons.bookmark,
                                 function: () {
                                   app.removesavetrips(app.modelid!);
@@ -339,7 +641,8 @@ bool tripavilable=true;
                               ,
                             ),
                           ),
-                          defaultmapscreen(title: 'مكان التجمع علي الخريطة',
+                          defaultmapscreen(
+                              title: 'مكان التحرك علي الخريطة',
                               addressonpointer: app.modelid?.meetingaddress??'',
                               position: position??LatLng(30.0444, 31.2357)),
                         ],

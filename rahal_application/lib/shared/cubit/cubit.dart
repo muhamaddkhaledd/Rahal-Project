@@ -332,6 +332,23 @@ class appcubit extends Cubit<appstates> {
       print("Error checking email existence: $e");
     }
   }
+  bool phoneExists = false;
+  Future<void>checkphoneexist(String phone)async{
+    await FirebaseFirestore
+        .instance
+        .collection('users')
+        .where('phone',isEqualTo: phone)
+        .get().then((value) {
+          if(value.docs!=null && value.docs.isNotEmpty){
+            phoneExists=true;
+            print('exist');
+          }
+          else{
+            phoneExists=false;
+            print('not exist');
+          }
+    });
+  }
   double? offer;
   Future<void> coupouncheck(String coupoun)async
   {
@@ -768,74 +785,76 @@ class appcubit extends Cubit<appstates> {
   })
   async{
     String orderkey = 'timebooked';
-    if (documentSnapshot3==null) {
-      emit(getbookedtripsdataloading());
-      Query query = await FirebaseFirestore.instance.collection('users').doc(uid).collection('bookedtrips');
+    if(uid!='') {
+      if (documentSnapshot3 == null) {
+        emit(getbookedtripsdataloading());
+        Query query = await FirebaseFirestore.instance.collection('users').doc(
+            uid).collection('bookedtrips');
 
 
-      query = query.orderBy(orderkey, descending: descending);
-      query.limit(limit!).get().then((value) {
-        if (value.docs.isEmpty) {
-          showmore3=false;
-          emit(getbookedtripsdatasucess());
-        }
-        //json code here
-        value.docs.forEach((element) {
-          final data = element.data() as Map<String, dynamic>;
-          bookedtripsdata.add(bookedtripmodel.fromjson(data));
-          documentSnapshot3 = value.docs.last;
-          print('the doc is :${documentSnapshot3!.data()}');
-          if(bookedtripsdata.length<limit){
-            showmore3=false;
+        query = query.orderBy(orderkey, descending: descending);
+        query.limit(limit!).get().then((value) {
+          if (value.docs.isEmpty) {
+            showmore3 = false;
+            emit(getbookedtripsdatasucess());
           }
-          else{
-            showmore3=true;
-          }
-          emit(getbookedtripsdatasucess());
-        });
-      }).catchError((error) {
-        emit(getbookedtripsdataerror(error.toString()));
-      });
-    }
-
-    else {
-      emit(loadmorebookedtripsdataloading());
-      Query query = await FirebaseFirestore.instance.collection('users').doc(uid).collection('bookedtrips').limit(limit!);
-
-      query = query.orderBy(orderkey, descending: descending);
-      query.startAfterDocument(documentSnapshot3!).get().then((value) {
-        if (value.docs.isEmpty) {
-          emit(getbookedtripsdatasucess());
-        }
-        //json code here
-        value.docs.forEach((element) async {
-          final data = element.data() as Map<String, dynamic>;
-          bookedtripsdata.add(bookedtripmodel.fromjson(data));
-          documentSnapshot3 = value.docs.last;
-          print('the doc is :${documentSnapshot3!.data()}');
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(uid)
-              .collection('bookedtrips')
-              .orderBy(orderkey,descending: descending)
-              .startAfterDocument(documentSnapshot3!)
-              .get()
-              .then((value) {
-            print(value);
-            if(value.docs.isEmpty){
-              print('empty');
-              showmore3=false;
-              emit(getbookedtripsdatasucess());
+          //json code here
+          value.docs.forEach((element) {
+            final data = element.data() as Map<String, dynamic>;
+            bookedtripsdata.add(bookedtripmodel.fromjson(data));
+            documentSnapshot3 = value.docs.last;
+            print('the doc is :${documentSnapshot3!.data()}');
+            if (bookedtripsdata.length < limit) {
+              showmore3 = false;
             }
+            else {
+              showmore3 = true;
+            }
+            emit(getbookedtripsdatasucess());
           });
-          emit(loadmoredatafirebasesucess());
-          emit(getbookedtripsdatasucess());
-
+        }).catchError((error) {
+          emit(getbookedtripsdataerror(error.toString()));
         });
-      })
-          .catchError((error) {
-        emit(getbookedtripsdataerror(error.toString()));
-      });
+      }
+      else {
+        emit(loadmorebookedtripsdataloading());
+        Query query = await FirebaseFirestore.instance.collection('users').doc(
+            uid).collection('bookedtrips').limit(limit!);
+
+        query = query.orderBy(orderkey, descending: descending);
+        query.startAfterDocument(documentSnapshot3!).get().then((value) {
+          if (value.docs.isEmpty) {
+            emit(getbookedtripsdatasucess());
+          }
+          //json code here
+          value.docs.forEach((element) async {
+            final data = element.data() as Map<String, dynamic>;
+            bookedtripsdata.add(bookedtripmodel.fromjson(data));
+            documentSnapshot3 = value.docs.last;
+            print('the doc is :${documentSnapshot3!.data()}');
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(uid)
+                .collection('bookedtrips')
+                .orderBy(orderkey, descending: descending)
+                .startAfterDocument(documentSnapshot3!)
+                .get()
+                .then((value) {
+              print(value);
+              if (value.docs.isEmpty) {
+                print('empty');
+                showmore3 = false;
+                emit(getbookedtripsdatasucess());
+              }
+            });
+            emit(loadmoredatafirebasesucess());
+            emit(getbookedtripsdatasucess());
+          });
+        })
+            .catchError((error) {
+          emit(getbookedtripsdataerror(error.toString()));
+        });
+      }
     }
   }
 

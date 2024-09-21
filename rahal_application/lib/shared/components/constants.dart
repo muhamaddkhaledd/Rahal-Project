@@ -16,8 +16,8 @@ bool decending=true;
 String orderkeyname='افتراضي';
 
 List<dynamic> placeses =[
-  'العين السخنة',
   'القاهرة',
+  'العين السخنة',
   'الاسكندرية',
   'الجيزة',
   'الغردقة',
@@ -65,7 +65,7 @@ List<dynamic> triptypes=[
   'رحلات ثقافية',
   'رحلات ترفيهية',
   'رحلات للتنزه',
-  'رحلات متنوع',
+  'رحلات متنوعة',
 ];
 
 List<dynamic> contactemails=[];
@@ -146,12 +146,12 @@ void selectsort({
   else if(sort=='الموعد من الاحدث الي الابعد')
   {
     orderkey='date';
-    decending=true;
+    decending=false;
   }
   else if(sort=='الموعد من الابعد الي الاحدث')
   {
     orderkey='date';
-    decending=false;
+    decending=true;
   }
 
 

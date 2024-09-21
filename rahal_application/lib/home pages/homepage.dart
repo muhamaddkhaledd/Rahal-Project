@@ -14,6 +14,7 @@ import 'package:rahal_application/shared/cubit/cubit.dart';
 import 'package:rahal_application/shared/cubit/states.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:sizer/sizer.dart';
 
 import '../shared/models/trips model.dart';
 import '../shared/styles/colors.dart';
@@ -94,9 +95,8 @@ class _homepageState extends State<homepage> {
       Colors.green[50],
       Colors.yellow[100],
     ];
-
     return BlocProvider(
-      create: (context) => appcubit()..getuserdatafirebase()..checkconn()..getfeatured()..getofferscreen()..getplacesimages()..getcontactinfo(),
+      create: (context) => appcubit()..getuserdatafirebase()..checkconn()..getfeatured()..getofferscreen()..getcontactinfo(),
       child: BlocConsumer<appcubit,appstates>(
         listener: (context, state) { },
         builder: (context, state) {
@@ -122,7 +122,7 @@ class _homepageState extends State<homepage> {
                   children: [
                     Container(
                       width: double.infinity,
-                      height: MediaQuery.of(context).size.height/1.6,
+                      height:63.h,//MediaQuery.of(context).size.height/1.6,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(bottomLeft:Radius.circular(60) ,bottomRight: Radius.circular(60)),
                         gradient: LinearGradient(
@@ -156,24 +156,45 @@ class _homepageState extends State<homepage> {
                                         borderRadius: BorderRadius.circular(20)
                                     ),
                                     clipBehavior: Clip.antiAlias,
-                                    child: Container(height: 187,),
+                                    child: Container(height: 22.h,),
                                   ),
                                 ),
                                 SizedBox(height: 5,),
-                                Container(
-                                  height: 90,
-                                  child: ListView.separated(
-                                    reverse: true,
-                                    physics:BouncingScrollPhysics() ,
-                                    scrollDirection: Axis.horizontal,
-                                    separatorBuilder: (context, index) => SizedBox(width: 4),
-                                    itemCount: 20,
-                                    itemBuilder: (context, index) =>
-                                        Card(
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
-                                          child: Container(width: 200,)
-                                        ),
-                                  ),
+                                // Container(
+                                //   height: 90,
+                                //   child: ListView.separated(
+                                //     reverse: true,
+                                //     physics:BouncingScrollPhysics() ,
+                                //     scrollDirection: Axis.horizontal,
+                                //     separatorBuilder: (context, index) => SizedBox(width: 4),
+                                //     itemCount: 20,
+                                //     itemBuilder: (context, index) =>
+                                //         Card(
+                                //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
+                                //           child: Container(width: 200,)
+                                //         ),
+                                //   ),
+                                // ),
+                                Row(
+                                  children: [
+                                    Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight:Radius.circular(10) ),),
+                                        child: Container(width: 22.w,height: 80,)
+                                    ),
+                                    Expanded(
+                                      child: Card(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),),
+                                          child: Container(height: 80,)
+                                      ),
+                                    ),
+                                    Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft:Radius.circular(10) )),
+                                        child: Container(width: 22.w,height: 80,)
+                                    ),
+                                  ],
                                 ),
                                 CarouselSlider(
                                   items: assetPaths.map((assetPath) {
@@ -259,7 +280,7 @@ class _homepageState extends State<homepage> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
                                     width: double.infinity,
-                                    height: 130,
+                                    height: 15.h,
                                     decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(15)),
                                   ),
                                 ),
@@ -356,7 +377,7 @@ class _homepageState extends State<homepage> {
                               // ),
                               SizedBox(height: 10,),
                               Container(
-                                height: 120,
+                                height: 13.h,//120,
                                 child: ListView.separated(
                                   reverse: true,
                                   physics: BouncingScrollPhysics(),
@@ -381,7 +402,7 @@ class _homepageState extends State<homepage> {
                                               textDirection: TextDirection.rtl,
                                               children: [
                                                 SizedBox(width: 10),
-                                                Expanded(child: Text('${triptypes[index]}',textAlign: TextAlign.center,style: TextStyle(color: Colors.black,fontSize: 15))),
+                                                Expanded(child: Text('${triptypes[index]}',textAlign: TextAlign.center,style: TextStyle(color: Colors.black,fontSize: 11.sp))),
                                                 Expanded(child: Padding(
                                                   padding: const EdgeInsets.all(5.0),
                                                   child: Image.asset(pics[index]),
@@ -457,7 +478,7 @@ class _homepageState extends State<homepage> {
                               //         ),
                               //   ),
                               // ),
-                              SizedBox(height: 18,),
+                              SizedBox(height: 10,),
                               CarouselSlider(
                                 items: placespics.asMap().entries.map((entry) {
                                   int index = entry.key;
@@ -465,6 +486,7 @@ class _homepageState extends State<homepage> {
                                   bool isSelected = index == selectedImageIndex;
                                   return Container(
                                     child: Stack(
+                                      alignment: Alignment.bottomCenter,
                                       children: [
                                         Padding(
                                           padding: EdgeInsets.only(top: 20,bottom: 20),
@@ -511,11 +533,9 @@ class _homepageState extends State<homepage> {
                                                         bottomRight: Radius.circular(10),
                                                         bottomLeft: Radius.circular(30),
                                                       ),
-                                                      child: Container(
-                                                        child: Image.asset(
-                                                          assetPath, // Replace with the asset path
-                                                          fit: BoxFit.cover,
-                                                        ),
+                                                      child: Image.asset(
+                                                        assetPath, // Replace with the asset path
+                                                        fit: BoxFit.cover,
                                                       ),
                                                     ),
                                                   ),
@@ -548,7 +568,7 @@ class _homepageState extends State<homepage> {
                                                                  )),
                                                              child: Padding(
                                                                padding: EdgeInsets.only(top: 7,bottom: 7,right:40,left: 40),
-                                                               child: Text('استكشف الان',style: TextStyle(fontSize: 20,color: Colors.white)),
+                                                               child: Text('استكشف الان',style: TextStyle(fontSize: 15.sp,color: Colors.white)),
                                                              ),),
                                                          ) ,
                                                          // Semi-transparent black color
@@ -562,8 +582,8 @@ class _homepageState extends State<homepage> {
                                         ),
                                         Positioned(
                                           bottom: 0,
-                                          right: 70.0,
-                                          left: 70.0,
+                                          right: 60.0,
+                                          left: 60.0,
                                           child: Card(
                                             elevation: 4,
                                             shape: RoundedRectangleBorder(
@@ -583,7 +603,8 @@ class _homepageState extends State<homepage> {
                                               child: Center(
                                                 child: Text(
                                                   placeses[tripstypeindex],
-                                                  style: TextStyle(fontSize: 20, color: Colors.white),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(fontSize: 12.sp, color: Colors.white),
                                                 ),
                                               ),
                                             ),
@@ -610,7 +631,40 @@ class _homepageState extends State<homepage> {
                                   },
                                 ),
                               ),
-
+                              SizedBox(height: 15,),
+                              Container(
+                                  height: 14.h, //120
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      borderRadius: BorderRadius.circular(20)
+                                  ),
+                                  clipBehavior: Clip.antiAlias,
+                                  child: Stack(
+                                    fit: StackFit.expand,
+                                    children: [
+                                      Image.asset('assets/images/1-.png',fit: BoxFit.cover,),
+                                      Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            textDirection: TextDirection.rtl,
+                                            children: [
+                                              Flexible(child: Text('استكشف الرحلات الان',style: TextStyle(color: Colors.white,fontSize:  22.sp ,fontWeight: FontWeight.bold),textAlign: TextAlign.center,)),
+                                              IconButton(
+                                                color: Colors.white,
+                                                icon: Icon(CupertinoIcons.arrow_left_circle,size: 45),
+                                                onPressed: () {
+                                                  navigateTo(context, home(initialIndex: 1,));
+                                              },),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                              SizedBox(height: 15,),
                               Row(
                                 textDirection: TextDirection.rtl,
                                 children: [
@@ -629,7 +683,7 @@ class _homepageState extends State<homepage> {
                                 ],
                               ),
                               Container(
-                                height: 180,
+                                height: 20.h,
                                 width: double.infinity,
                                 child: ListView.separated(
                                     reverse: true,
@@ -639,38 +693,29 @@ class _homepageState extends State<homepage> {
                                     itemCount: app.featuredtrips.length,
                                     itemBuilder: (context, index) {
                                       tripsmodel model = app.featuredtrips[index];
-
-                                      print('datassss ${app.ids}');
                                       return Padding(
                                         padding: const EdgeInsets.all(10.0),
                                         child: Card(
                                           color: Colors.white,
                                           elevation: 6,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(
-                                                  20)),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                                           child: GestureDetector(
                                             onTap: () {
                                               setState(() {
                                                 navigateTo(context, tripdetails(id: model.id!,));
                                               });
-
                                             },
                                             child: Container(
                                               padding: EdgeInsets.all(10),
                                               decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius
-                                                      .circular(20)),
-                                              width: MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .width / 1.1,
+                                                  borderRadius: BorderRadius.circular(20)),
+                                              width: MediaQuery.of(context).size.width / 1.1,
                                               child:
                                               Row(
                                                 textDirection: TextDirection.rtl,
                                                 children: [
                                                   Container(
-                                                    width: 150,
+                                                    width: 37.w,
                                                     height: double.infinity,
                                                     decoration: BoxDecoration(
                                                         color: Colors.grey,
@@ -711,12 +756,12 @@ class _homepageState extends State<homepage> {
                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                           children: [
                                                             Container(
-                                                                width: 180,
-                                                                child: Text('${model.name}',style: TextStyle(fontSize: 16), textAlign: TextAlign.right, maxLines: 3,
+                                                                width:45.w,
+                                                                child: Text('${model.name}',style: TextStyle(fontSize: 12.sp), textAlign: TextAlign.right, maxLines: 3,
                                                                   overflow: TextOverflow.ellipsis,)),
                                                             Text('${model.price} جم',textDirection: TextDirection.rtl,
                                                                 style: TextStyle(
-                                                                    fontSize: 12)),
+                                                                    fontSize: 8.sp)),
                                                           ],
                                                         ),
                                                       ),
@@ -724,18 +769,12 @@ class _homepageState extends State<homepage> {
                                                         mainAxisAlignment: MainAxisAlignment.end,
                                                         children: [
                                                           Row(
-                                                              textDirection: TextDirection
-                                                                  .rtl,
+                                                              textDirection: TextDirection.rtl,
                                                               children: [
-                                                                Icon(CupertinoIcons
-                                                                    .location_solid),
-                                                                Container(
-                                                                    width: 70,
-                                                                    child: Text('${model.location}',textDirection: TextDirection.rtl,maxLines: 3,overflow: TextOverflow.ellipsis,)),
-
-                                                                Icon(CupertinoIcons
-                                                                    .calendar),
-                                                                Text('${convertdateformat(model.date)}',style: TextStyle(fontSize: 14)),
+                                                                Icon(CupertinoIcons.location_solid),
+                                                                Container(width: 17.w,child: Text('${model.location}',textDirection: TextDirection.rtl,maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 9.sp))),
+                                                                Icon(CupertinoIcons.calendar),
+                                                                Container(width: 15.w,child: Text('${convertdateformat(model.date)}',style: TextStyle(fontSize: 9.sp))),
                                                               ]),
                                                         ],
                                                       ),

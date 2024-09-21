@@ -16,6 +16,7 @@ import '../shared/cubit/states.dart';
 import '../shared/models/listtripsmodel.dart';
 import '../shared/styles/colors.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:sizer/sizer.dart';
 
 class maintrip extends StatefulWidget {
   @override
@@ -120,27 +121,23 @@ class _maintripState extends State<maintrip> {
                             ),
                             Divider(color: Colors.transparent),
                             ConditionalBuilder(
-                              condition:state is !gettripsdatafirebaseloading,
+                              condition: state is !gettripsdatafirebaseloading,
                               fallback: (context) => Shimmer.fromColors(
                                 baseColor: Colors.grey[400]??Colors.grey,
                                 highlightColor: Colors.white,
-                                child: Column(
-                                  children: [
-                                    ListView.separated(
-                                      physics: NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: 3,
-                                      separatorBuilder: (context, index) => SizedBox(height: 12,),
-                                      itemBuilder: (context, index) => Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(15),),
-                                        width: double.infinity,
-                                        height: MediaQuery.of(context).size.height/4.4,
+                                child: ListView.separated(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: 3,
+                                  separatorBuilder: (context, index) => SizedBox(height: 12,),
+                                  itemBuilder: (context, index) => Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15),),
+                                    width: double.infinity,
+                                    height: 22.5.h,
 
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                               builder: (context) => Column(
@@ -264,27 +261,27 @@ class _maintripState extends State<maintrip> {
                                           color: Colors.white,
                                           borderRadius: BorderRadius.circular(15), // Adjust the circular border radius here
                                         ),
-
                                         child: Padding(
                                           padding: const EdgeInsets.all(15.0),
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
-                                              Text('${model.name}',style: TextStyle(fontSize: 20),maxLines: 2,overflow: TextOverflow.ellipsis,textDirection: TextDirection.rtl),
-
+                                              Text('${model.name}',style: TextStyle(fontSize: 16.sp),maxLines: 2,overflow: TextOverflow.ellipsis,textDirection: TextDirection.rtl),
                                               Row(textDirection: TextDirection.rtl,children: [Icon(CupertinoIcons.calendar),SizedBox(width: 7,),Text('${convertdateformat(model.date)}'),],),
                                               SizedBox(height: 5,),
-                                              Text('التحرك من ${model.meetingplace}'),
+                                              Text('التحرك من ${model.meetingplace}',textDirection: TextDirection.rtl),
                                               SizedBox(height: 5,),
                                               Row(textDirection: TextDirection.rtl,children: [Icon(CupertinoIcons.location_solid),SizedBox(width: 7,),Text('${model.location}'),],),
-                                              Row(mainAxisAlignment: MainAxisAlignment.start,children: [Text('${model.price.toString()} جم'),SizedBox(width: 7,)],),
-                                              SizedBox(height: 15,),
-                                              defaultbutton(text: 'التفاصيل والحجز', function: (){
-
-                                                  navigateTo(context,tripdetails( id: model.id!,));
-
-
-                                              })
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  Row(mainAxisAlignment: MainAxisAlignment.start,children: [Text('${model.price.toString()} جم'),SizedBox(width: 7,)],),
+                                                  SizedBox(height: 15,),
+                                                  defaultbutton(text: 'التفاصيل والحجز', function: (){
+                                                      navigateTo(context,tripdetails( id: model.id!,));
+                                                  }),
+                                                ],
+                                              )
                                             ],
                                           ),
                                         ),

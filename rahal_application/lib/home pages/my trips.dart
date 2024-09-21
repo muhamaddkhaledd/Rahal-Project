@@ -38,7 +38,7 @@ class _mytripsState extends State<mytrips> {
             backgroundColor: defaultcolor,
             body: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: uid==''?
+              child: uid==''||uid==null?
                   Center(child: Text('الرجاء تسجيل الدخول او انشاء حساب اولا',style: TextStyle(color: Colors.white,fontSize: 15),))
                   :ConditionalBuilder(
                 condition: state is !getbookedtripsdataloading,
@@ -86,12 +86,24 @@ class _mytripsState extends State<mytrips> {
                                     Row(
                                       textDirection: TextDirection.rtl,
                                       children: [
-                                        Icon(CupertinoIcons.location_solid),
-                                        Expanded(child: Text('${model.tripbookeddata?['location']}',style: TextStyle(fontSize: 15),textDirection: TextDirection.rtl,)),
-
-                                        Icon(CupertinoIcons.calendar),
-                                        Text('${convertdateformat(model.tripbookeddata?['date'])}',style: TextStyle(fontSize: 15)),
-
+                                        Expanded(
+                                          child: Row(
+                                          textDirection: TextDirection.rtl,
+                                          children: [
+                                            Icon(CupertinoIcons.location_solid),
+                                            Expanded(child: Text('${model.tripbookeddata?['location']}',style: TextStyle(fontSize: 15),textDirection: TextDirection.rtl,)),
+                                          ],
+                                        )),
+                                        Expanded(
+                                            child: Row(
+                                            textDirection: TextDirection.rtl,
+                                            children: [
+                                              Icon(CupertinoIcons.calendar),
+                                              SizedBox(width: 5,),
+                                              Expanded(child: Text('${convertdateformat(model.tripbookeddata?['date'])}',style: TextStyle(fontSize: 15),textDirection: TextDirection.rtl,)),
+                                            ],
+                                          ),
+                                        ),
                                         Expanded(child: Text('تم دفع ${model.totalprice}',style: TextStyle(fontSize: 15))),
                                       ],
                                     ),
@@ -125,7 +137,7 @@ class _mytripsState extends State<mytrips> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(width: 10,),
+                                        Visibility(visible: comparetime==1?true:false,child: SizedBox(width: 10,)),
                                         Expanded(
                                           child: MaterialButton(
                                             onPressed: () {
@@ -191,7 +203,7 @@ class _mytripsState extends State<mytrips> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.error_outline,size: 100,color: Colors.white,),
-                        Text('لا يوجد رحلات تم حجزها',style: TextStyle(fontSize: 35,color: Colors.white),),
+                        Text('لا يوجد رحلات تم حجزها',style: TextStyle(fontSize: 35,color: Colors.white),textAlign: TextAlign.center),
                       ],
                     ),
                   );

@@ -48,7 +48,7 @@ Sqldb sqldb = Sqldb();
                 builder: (BuildContext context) {
                   return CupertinoAlertDialog(
                     title: Text('خطأ'),
-                    content: Text('البيانات التي ادخلتها خاطئه او تم انقطاع اتصال الانترنت'),
+                    content: Text('البيانات التي ادخلتها خاطئة او تم انقطاع اتصال الانترنت'),
                     actions: [
                       CupertinoDialogAction(
                         child: Text('حسنا'),
@@ -103,10 +103,24 @@ Sqldb sqldb = Sqldb();
                           },
                         ),
                         SizedBox(height: 20,),
-                        defaultformfield(labeltxt: 'كلمه المرور',borderRediusSize: 20, icon: Icon(Icons.lock), control: password, keyboardtype:TextInputType.visiblePassword , ispassword: hidepassword,suffixicon: IconButton(onPressed: (){setState(() {hidepassword=!hidepassword;});}, icon: Icon(hidepassword? CupertinoIcons.eye_fill:CupertinoIcons.eye_slash_fill)),validation: (value) {
+                        defaultformfield(labeltxt: 'كلمة المرور',borderRediusSize: 20, icon: Icon(Icons.lock), control: password, keyboardtype:TextInputType.visiblePassword , ispassword: hidepassword,suffixicon: IconButton(onPressed: (){setState(() {hidepassword=!hidepassword;});}, icon: Icon(hidepassword? CupertinoIcons.eye_fill:CupertinoIcons.eye_slash_fill)),validation: (value) {
                           if(value!.isEmpty||!RegExp( r'^.{8,}$').hasMatch(value))
-                            return 'كلمه المرور التي ادخلتها قصيرة جدا';
+                            return 'كلمة المرور التي ادخلتها قصيرة جدا';
                         },),
+                        SizedBox(height: 20,),
+                        Row(
+                          textDirection: TextDirection.rtl,
+                          children: [
+                            GestureDetector(
+                                onTap: (){
+                                  setState(() {
+
+                                  });
+                                },
+
+                                child: Text('هل نسيت كلمة المرور ؟',style: TextStyle(color: Colors.blue),)),
+                          ],
+                        ),
                         SizedBox(height: 20,),
                         defaultbutton(text: 'الدخول',
                             condition: state is !loginloading,
@@ -119,6 +133,7 @@ Sqldb sqldb = Sqldb();
                             print(FirebaseAuth.instance.currentUser?.uid);
                           }
                         }),
+
                         SizedBox(height: 20,),
                         // Row(
                         //   mainAxisAlignment: MainAxisAlignment.center,
@@ -135,13 +150,16 @@ Sqldb sqldb = Sqldb();
                         //     SizedBox(height: 100,),
                         //   ],
                         // ),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             GestureDetector(
                                 onTap: (){
                                   setState(() {
-                                    navigateTo(context, home());
+                                    cachehelper.saveshareddata(key: 'viewhomepage',value: true).then((value) {
+                                      navigateTo(context, home());
+                                    });
                                   });
                                 },
 

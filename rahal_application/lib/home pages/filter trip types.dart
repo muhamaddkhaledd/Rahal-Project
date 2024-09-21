@@ -10,27 +10,30 @@ import 'package:rahal_application/shared/styles/colors.dart';
 
 import '../shared/components/components.dart';
 
-class filter extends StatefulWidget {
+class filtertriptypes extends StatefulWidget {
 
   @override
-  State<filter> createState() => _filterState();
-
+  State<filtertriptypes> createState() => _filtertriptypesState();
+  String? imagetriptype;
+  String? triptype;
+  Color? theme;
+  filtertriptypes({this.imagetriptype,this.triptype,this.theme});
 
 }
 
-class _filterState extends State<filter> {
+class _filtertriptypesState extends State<filtertriptypes> {
   bool ordervisible = false;
   bool placesvisible = false;
   bool pricesvisible = false;
   bool meetingvisible=false;
   bool governmentvisible = false;
   String pricegroup='كل الاسعار';
-  String sortgroup=orderkeyname;
-  String governmentgroup=governmentkey;
+  String sortgroup=orderkeyname2;
   List <bool> placespressed=[];
   List <bool> governmentspressed=[];
   List<String> placesfilter=[];
   List <String> governmentfilter = [];
+  String governmentgroup=governmentkey2;
 
   List<String> price =[
     'كل الاسعار',
@@ -48,16 +51,16 @@ class _filterState extends State<filter> {
     'الموعد من الابعد الي الاحدث',
   ];
 
-@override
+  @override
   void initState() {
 
     placesfilter.clear();
     governmentfilter.clear();
-    for(int i=0;i<locations.length;i++){
-      placesfilter.add(locations[i]);
+    for(int i=0;i<locations2.length;i++){
+      placesfilter.add(locations2[i]);
     }
-    for(int i=0;i<governments.length;i++){
-      governmentfilter.add(governments[i]);
+    for(int i=0;i<governments2.length;i++){
+      governmentfilter.add(governments2[i]);
     }
     super.initState();
   }
@@ -112,7 +115,7 @@ class _filterState extends State<filter> {
                                         pressed: sortgroup==sort[index]?true:false,
                                         onpressed: () {
                                           setState(() {
-                                              sortgroup = sort[index];
+                                            sortgroup=sort[index];
                                           });
                                         },
                                         oncancel: () {
@@ -302,7 +305,6 @@ class _filterState extends State<filter> {
                               SizedBox(height: 10,),
                             ],
                           ),
-
                           Divider(
                             thickness: 0.2,
                             color: Colors.black,
@@ -317,34 +319,33 @@ class _filterState extends State<filter> {
                     children: [
                       Expanded(
                         child: MaterialButton(
-                          color: defaultcolor,
+                          color:widget.theme?? Colors.amber,
                           onPressed: (){
-                              String oldname=orderkeyname;
-                              selectsort(sort: sortgroup);
-                              print(orderkeyname);
-                              orderkeyname=sortgroup;
-                              locations=placesfilter;
-                              governments=governmentfilter;
-                              governmentkey=governmentgroup;
-                              print(governmentkey);
-                            print(governments);
-                            navigateTo(context,home(initialIndex: 1,));
+                            String oldname=orderkeyname;
+                            selectsort2(sort: sortgroup);
+                            print(orderkeyname2);
+                            orderkeyname2=sortgroup;
+                            locations2=placesfilter;
+                            governments2=governmentfilter;
+                            governmentkey2=governmentgroup;
+                            print(governments2);
+                            navigateTo(context, tripscategories('${widget.imagetriptype}', '${widget.triptype}'));
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('تأكيد',style: TextStyle(fontSize: 20,color: Colors.white),),
+                            child: Text('تأكيد',style: TextStyle(fontSize: 20),),
                           ),),
                       ),
                       SizedBox(width: 10,),
                       Expanded(
                         child: MaterialButton(
-                          color: defaultcolor,
+                          color: widget.theme??Colors.amber,
                           onPressed: (){
                             Navigator.pop(context);
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('رجوع',style: TextStyle(fontSize: 20,color: Colors.white),),
+                            child: Text('رجوع',style: TextStyle(fontSize: 20),),
                           ),),
                       ),
                     ],

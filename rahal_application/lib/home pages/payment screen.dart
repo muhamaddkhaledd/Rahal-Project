@@ -385,11 +385,11 @@ class _paymentscreenState extends State<paymentscreen> {
                           child: TextFormField(
                             decoration: InputDecoration(labelText: 'رقم الهاتف',prefixText: '+20',),
                             validator: (value) {
-                              if(value!.isEmpty || value.length<11){
-                                return 'الرجاء كتابة رقم الهاتف لا يقل عن 11 رقم';
+                              if(value!.isEmpty || value.length<10){
+                                return 'الرجاء كتابة رقم الهاتف لا يقل عن 10 رقم';
                               }
                             },
-                            maxLength: 11,
+                            maxLength: 10,
                             keyboardType: TextInputType.phone,
                             onChanged: (value) {
                               //mapdata['phone'][index]=value;
@@ -758,8 +758,16 @@ class _paymentscreenState extends State<paymentscreen> {
       x = (offer! * widget.model.price!).round()*100;
     }
     print(x);
+    print('mohamed  $age');
     moneydiscounted = (widget.model.price!*(offer??0)).round();
-    totalprice = ((widget.model.price)!*(selectedNumber+1) *100 ) - x ;
+    int childprice=0;
+    if(widget.model.childpay!=null) {
+      childprice = (widget.model.childpay)! * age
+          .where((string) => string == 'child')
+          .length;
+    }
+    print(childprice);
+    totalprice = ((widget.model.price)!* (age.where((string) => string == 'adult').length+1) *100 + (childprice*100)) - x ;
     return BlocProvider(
       create: (context) => appcubit()..getauthtoken(),
       child: BlocConsumer<appcubit,appstates>(

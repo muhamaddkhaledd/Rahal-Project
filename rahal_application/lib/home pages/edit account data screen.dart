@@ -43,20 +43,16 @@ class _editaccountState extends State<editaccount> {
             appBar: AppBar(elevation: 0,),
             body: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Padding(
-                padding:EdgeInsets.only(bottom: 170),
-                child: Center(
-                  child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('تعديل بينات الحساب',style: TextStyle(fontSize: 30),),
-                        SizedBox(height: 30,),
-                        screenselect(widget.screen, app,state),
-                      ],
-                    ),
-                  ),
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 80,),
+                    Text('تعديل بينات الحساب',style: TextStyle(fontSize: 30),),
+                    SizedBox(height: 30,),
+                    screenselect(widget.screen, app,state),
+                  ],
                 ),
               ),
             ),
@@ -135,10 +131,10 @@ class _editaccountState extends State<editaccount> {
               SizedBox(height: 10,),
               defaultformfield(labeltxt: 'رقم الهاتف', borderRediusSize: 10,
                 validation: (value) {
-                  if(value!.isEmpty||!RegExp(r'^\d{11}$').hasMatch(value))
-                    return 'الرجاء كتابة رقم هاتف صالح';
+                  if(app.phoneExists||value!.isEmpty||!RegExp(r'^\d{10}$').hasMatch(value))
+                    return !app.phoneExists?'الرجاء كتابة رقم هاتف صالح':'رقم الهاتف الذي ادخلتة موجود بالفعل';
                 },
-                maxlength: 11,
+                maxlength: 10,
                 prefixtext: '+20',
                 control: phonechange,
                 keyboardtype: TextInputType.phone,
@@ -152,10 +148,12 @@ class _editaccountState extends State<editaccount> {
           condition: state is !edituserdatafirebaseloading,
           fallback: (context) => Center(child: CircularProgressIndicator(),),
           builder: (context) {
+
             return Container(
                 decoration: BoxDecoration(color: defaultcolor,borderRadius: BorderRadius.circular(10)),
                 width: double.infinity,
-                child: TextButton(onPressed: (){
+                child: TextButton(onPressed: ()async{
+                  await app.checkphoneexist(phonechange.text);
                   if(phonechangekey.currentState!.validate())
                   {
                     //code here

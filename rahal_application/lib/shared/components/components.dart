@@ -249,7 +249,7 @@ Widget defaultmapscreen({
     child: Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.blueGrey[100]
+          color: Colors.grey[350],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -259,16 +259,11 @@ Widget defaultmapscreen({
             padding: const EdgeInsets.all(9.0),
             child: Text(title,style: TextStyle(fontSize: 16),textDirection: TextDirection.rtl,),
           ):Container(),
-          Divider(
-            thickness: 0.3,
-            color: Colors.black,
-            height: 0,
-          ),
           Container(
             width: double.infinity,
             height: 200,
             child: GoogleMap(
-              initialCameraPosition: CameraPosition(target: position, zoom: 15),
+              initialCameraPosition: CameraPosition(target: position, zoom: 13),
               markers: {Marker(markerId: MarkerId("targetMarker"), position: position,infoWindow:addressonpointer!=null? InfoWindow(title: addressonpointer):InfoWindow.noText)},
               onMapCreated: (GoogleMapController controller) {},
             ),

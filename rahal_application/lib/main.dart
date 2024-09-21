@@ -7,6 +7,7 @@ import 'package:rahal_application/login and register homepage.dart';
 import 'package:rahal_application/shared/components/constants.dart';
 import 'package:rahal_application/shared/network/local/cache_helper.dart';
 import 'package:rahal_application/shared/network/remote/dio_helper.dart';
+import 'package:sizer/sizer.dart';
 import 'package:rahal_application/sqltest.dart';
 
 import 'dashboard.dart';
@@ -37,25 +38,44 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    //bool? isonboarging = cachehelper.getshareddata(key: 'onboarding');
+    bool isonboarding = cachehelper.getshareddata(key: 'onboarding')??true;
+    bool viewhomepage=false;
+    bool isbirthdaymissed = constusers.birth==null?true:false;
+
+    if(cachehelper.getshareddata(key: 'viewhomepage')==true||cachehelper.getshareddata(key: 'uid')!=null||cachehelper.getshareddata(key: 'uid')==''){
+      viewhomepage = true;
+    }
+    Widget homescreen(){
+      if(isonboarding==true)
+        return onboardingscreen();
+      else if(viewhomepage==true)
+        return home();
+      else
+        return login_register_home();
+    }
+
     //if(isonboarging==null)
       //isonboarging=true;
     //uid= cachehelper.getshareddata(key: 'uid');
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(backgroundColor: Colors.white,
-          titleTextStyle: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),
-          iconTheme: IconThemeData(color: Colors.black),),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          selectedItemColor: Colors.deepOrange,
-          elevation: 20,
-        ),
-        scaffoldBackgroundColor: Colors.white,
-        fontFamily: defaultarabicfont,
-      ),
-      home: home(),//isonboarging ?onboardingscreen():login_register_home(),
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            appBarTheme: AppBarTheme(backgroundColor: Colors.white,
+              titleTextStyle: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),
+              iconTheme: IconThemeData(color: Colors.black),),
+            bottomNavigationBarTheme: BottomNavigationBarThemeData(
+              selectedItemColor: Colors.deepOrange,
+              elevation: 20,
+            ),
+            scaffoldBackgroundColor: Colors.white,
+            fontFamily: defaultarabicfont,
+          ),
+          home:homescreen() ,// home(),//isonboarging ?onboardingscreen():login_register_home(),
+        );
+      },
     );
   }
 }

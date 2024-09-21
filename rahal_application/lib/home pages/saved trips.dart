@@ -22,7 +22,18 @@ class _savedtripsState extends State<savedtrips> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 0,backgroundColor: defaultcolor),
+      appBar: AppBar(elevation: 0,backgroundColor: defaultcolor,
+        leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back,
+          color: Colors.white, // Set the color here
+        ),
+        onPressed: () {
+          // Implement your back button functionality here
+          Navigator.of(context).pop();
+        },
+      ),
+      ),
       backgroundColor: defaultcolor,
       body: BlocProvider(
         create: (context) => appcubit()..getfavourites(),
@@ -92,6 +103,7 @@ class _savedtripsState extends State<savedtrips> {
                                                     // Display a CircularProgressIndicator while loading
                                                     return Center(
                                                       child: SpinKitThreeBounce(
+                                                        size: 25,
                                                         color: Colors.white,
                                                       ),
                                                     );
